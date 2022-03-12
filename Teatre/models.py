@@ -34,7 +34,7 @@ class Client(Model):
 class Movie(Model):
     name = models.CharField(max_length=50)
     genere = models.CharField(max_length=50)
-    duration = models.IntegerField(max_length=3)
+    duration = models.IntegerField()
 
     def str(self):
         return "Id: %s Movie name: %s Genre: %s Movie duration: %s" % (self.id, self.name, self.genre, self.duration)
