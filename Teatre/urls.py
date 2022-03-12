@@ -19,4 +19,8 @@ from . import  views
 
 urlpatterns = [
     path('',views.index),
+    path('',views.Login),
+    path('',views.cinemaList),
+    path('',views.MovieDetail),
+    path('',views.movieList)
 ]
