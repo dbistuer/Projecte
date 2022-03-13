@@ -22,7 +22,7 @@ urlpatterns = [
     path('CinemaList',Teatre.views.cinemaList),
     path('MovieList',Teatre.views.movieList),
     path('MovieDetail',Teatre.views.MovieDetail),
-
+    path('SignIn',Teatre.views.SignIn),
     path('Teatre/', include('Teatre.urls')),
     path('admin/', admin.site.urls),
 ]

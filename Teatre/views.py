@@ -29,3 +29,9 @@ def movieList(request):
     cinemas = Cinema.objects.all()
     json = {'cinemas':cinemas}
     return render(request,'cinemas/movieList.html',json)
+
+
+def SignIn(request):
+    cinemas = Cinema.objects.all()
+    json = {'cinemas': cinemas}
+    return render(request, 'cinemas/SignIn.html', json)

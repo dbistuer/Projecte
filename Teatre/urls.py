@@ -22,5 +22,6 @@ urlpatterns = [
     path('',views.Login),
     path('',views.cinemaList),
     path('',views.MovieDetail),
-    path('',views.movieList)
+    path('',views.movieList),
+    path('',views.SignIn)
 ]
