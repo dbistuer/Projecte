@@ -25,4 +25,5 @@ urlpatterns = [
     path('SignIn',Teatre.views.SignIn),
     path('Teatre/', include('Teatre.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),  # User authentication
 ]
