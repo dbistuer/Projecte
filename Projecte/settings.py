@@ -123,4 +123,12 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Redirect to the following url after login successfully
+LOGIN_REDIRECT_URL = '/'
+
+# Emalis will be shown on the terminal
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = '/accounts/login'
+
 django_heroku.settings(locals())

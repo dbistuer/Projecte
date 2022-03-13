@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import Teatre.views
+
 urlpatterns = [
     path('',Teatre.views.index),
-    path('Login',Teatre.views.Login),
+    path('accounts/', include('django.contrib.auth.urls')), # User authentication
     path('CinemaList',Teatre.views.cinemaList),
     path('MovieList',Teatre.views.movieList),
     path('MovieDetail',Teatre.views.MovieDetail),
-
     path('Teatre/', include('Teatre.urls')),
     path('admin/', admin.site.urls),
 ]
