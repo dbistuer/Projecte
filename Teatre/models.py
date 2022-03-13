@@ -24,12 +24,12 @@ class Client(Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, validators=[PhoneValidator])
-        #RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")])
     cardNumber = models.CharField(max_length=50, validators=[IBANValidator]) #TODO:revisar validacio de Numero de tarja
     email = models.CharField(max_length=50,validators=[EmailValidator("Must be a valid email")])
-    NIF = models.CharField(max_length=9,validators=[DNIValidator])
-    #=[RegexValidator(regex='([a-z]|[A-Z]|[0-9])[0-9]{7}([a-z]|[A-Z]|[0-9])', message="ACTIMEL")],unique=True, default="")
-    #TODO:Revisar exaustivament els validadors
+    DNI = models.CharField(max_length=9,validators=[DNIValidator],default='')
+    alias = models.CharField(max_length=20,unique=True,default='')
+    password = models.CharField(max_length=20,default='')
+
     def str(self) -> str:
         return self.name
 
