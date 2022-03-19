@@ -60,7 +60,7 @@ class Ticket(Model):
     class Meta:
         unique_together = (("date", "idClient", "idMovie", "idRoom"),)
 
-class Model(Enum):
+class Method(Enum):
     INSERT = 1
     UPDATE = 2
     DELETE = 3
