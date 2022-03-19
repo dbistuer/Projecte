@@ -26,9 +26,9 @@ def MovieList(request):
     return render(request, 'Movie/List.html', json)
 
 def ticket_list(request):
-    #tickets = Ticket.objects.all()
-    #json = {'tickets', tickets}
-    return render(request, 'Ticket/List.html')
+    tickets = Ticket.objects.all()
+    json = {'tickets': tickets}
+    return render(request, 'Ticket/List.html',json)
 
 def SignIn(request):
     if request.method == 'POST':

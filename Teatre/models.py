@@ -16,18 +16,18 @@ class Cinema(Model):
 
 class Room(Model):
     capacity = models.IntegerField(default=50, validators=[MinValueValidator(50)])
-    idCinema = models.ForeignKey(Cinema,on_delete=models.CASCADE)
+    Cinema = models.ForeignKey(Cinema,on_delete=models.CASCADE)
     number = models.IntegerField()
 
     def str(self) -> str:
-        return "cinemas:" + self.idCinema + " Room: " + self.number
+        return "cinemas:" + self.Cinema + " Room: " + self.number
 
     class Meta:
-        unique_together = (("number", "idCinema"),)
+        unique_together = (("number", "Cinema"),)
     
 class Client(Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    address = models.CharField(max_length=100)
+    adress = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, validators=[PhoneValidator])
     cardNumber = models.CharField(max_length=50, validators=[IBANValidator]) #TODO:revisar validacio de Numero de tarja
     DNI = models.CharField(max_length=9,validators=[DNIValidator],default='')
@@ -53,12 +53,12 @@ class Movie(Model):
 class Ticket(Model):
     date = models.DateTimeField(auto_now=True)
     price = models.FloatField(max_length=4)
-    idClient = models.ForeignKey(Client, on_delete=models.CASCADE)
-    idMovie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    idRoom = models.ForeignKey(Room, on_delete=models.CASCADE)
+    Client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    Room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("date", "idClient", "idMovie", "idRoom"),)
+        unique_together = (("date", "Client", "Movie", "Room"),)
 
 class Method(Enum):
     INSERT = 1
