@@ -23,4 +23,6 @@ urlpatterns = [
     #Movie
     path('Movie/List', views.MovieList),
     path('Movie/Detail', views.MovieDetail),
+    path('Ticket/List', views.ticket_list),
+
 ]

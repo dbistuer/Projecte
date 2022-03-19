@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from .models import *
 from django.contrib.auth.decorators import login_required
@@ -21,6 +22,11 @@ def MovieList(request):
     movies = Movie.objects.all()
     json = {'movies': movies}
     return render(request, 'Movie/List.html', json)
+
+def ticket_list(request):
+    #tickets = Ticket.objects.all()
+    #json = {'tickets', tickets}
+    return render(request, 'Ticket/ticketList.html')
 
 def SignIn(request):
     return render(request, 'cinemas/SignIn.html')
