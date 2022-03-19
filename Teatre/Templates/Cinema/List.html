@@ -12,16 +12,21 @@
                 <tr>
                     <th>Name</th>
                     <th>Adress</th>
+                    <th>Rooms</th>
+                    <th>Total number of allowed viewers</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for room in rooms %}
-
-                {% endfor %}
-                {% for cinema in cinemas %}
+                {{% totalCapacity = 0 %}}
+                <!--{#   for room in rooms|idCinema:cinema #}
+                    {{# totalCapacity += room.capacity #}}
+                {# endfor #}
+                {# for cinema in cinemas #}-->
                 <tr>
                     <td>{{cinema.name}}</td>
                     <td>{{cinema.adress}}</td>
+                    <!--<td>{{# rooms|idCinema:cinema|lenght #}}</td>
+                    <td>{{# totalCapacity  #}}</td>-->
                 </tr>
                 {% endfor %}
                 </tbody>

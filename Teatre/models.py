@@ -1,14 +1,12 @@
-from django.core.validators import EmailValidator
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Model
-from django.core.validators import RegexValidator
 from .validators import DNIValidator, PhoneValidator, IBANValidator
-
-
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+
 
 class Cinema(Model):
     adress = models.CharField(max_length=100)

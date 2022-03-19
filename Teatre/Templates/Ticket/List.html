@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %} Tickets List {% endblock %}
+
+{% block body %}
+    <h1>List of Tickets</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div clas="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Movie</th>
+                    <th>Cinema</th>
+                    <th>Room</th>
+                    <th>Client</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for movie in movies %}
+                <tr>
+                    <td>{{ticket.idMovie.name}}</td>
+                    <td>{{ticket.idRoom.idCinema.name}}</td>
+                    <td>{{ticket.idRoom.number}}</td>
+                    <td>{{ticket.idClient.DNI}}</td>
+                    <td>{{ticket.price}}</td>
+                    <td>{{ticket.date}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
