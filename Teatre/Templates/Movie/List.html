@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} Movie List {% endblock %}
+
+{% block body %}
+<h1>MovieList</h1>
+    <ul>
+    {% for movie in movies %}
+        <li>
+            {{movie.name}} - {{movie.genere}} - {{movie.duration}} - {{movie.descripton}}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

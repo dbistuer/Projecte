@@ -10,20 +10,20 @@ def index(request):
     return render(request,'cinemas/index.html',json)
 
 
-def cinemaList(request):
+def CinemaList(request):
     cinemas = Cinema.objects.all()
     json = {'cinemas':cinemas}
-    return render(request,'cinemas/cinemaList.html',json)
+    return render(request, 'Cinema/List.html', json)
 
 def MovieDetail(request):
-    cinemas = Cinema.objects.all()
-    json = {'cinemas':cinemas}
-    return render(request,'cinemas/MovieDetail.html',json)
+    movies = Movie.objects.all()
+    json = {'movies':movies}
+    return render(request, 'Movie/Detail.html', json)
 
-def movieList(request):
-    cinemas = Cinema.objects.all()
-    json = {'cinemas':cinemas}
-    return render(request,'cinemas/movieList.html',json)
+def MovieList(request):
+    movies = Movie.objects.all()
+    json = {'movies': movies}
+    return render(request, 'Movie/List.html', json)
 
 
 def SignIn(request):
