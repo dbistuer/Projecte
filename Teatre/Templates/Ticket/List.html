@@ -23,10 +23,10 @@
                                  {% if tickets|length != 0 %}
                     {% for ticket in tickets %}
                     <tr>
-                        <td>{{ticket.idMovie.name}}</td>
-                        <td>{{ticket.idRoom.idCinema.name}}</td>
-                        <td>{{ticket.idRoom.number}}</td>
-                        <td>{{ticket.idClient.DNI}}</td>
+                        <td>{{ticket.Movie.name}}</td>
+                        <td>{{ticket.Room.Cinema.name}}</td>
+                        <td>{{ticket.Room.number}}</td>
+                        <td>{{ticket.Client.DNI}}</td>
                         <td>{{ticket.price}}</td>
                         <td>{{ticket.date}}</td>
                     </tr>
