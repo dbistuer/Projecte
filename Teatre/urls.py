@@ -24,5 +24,5 @@ urlpatterns = [
     #Movie
     path('Movie/List', views.MovieList),
     path('Movie/Detail', views.MovieDetail),
-    path('SignIn', views.SignIn),
+    path('registration/SignIn', views.SignIn),
 ]

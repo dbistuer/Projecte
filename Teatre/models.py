@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Model
 from django.core.validators import RegexValidator
 from .validators import DNIValidator, PhoneValidator, IBANValidator
+from django.contrib.auth.models import User
 
 class Cinema(Model):
     adress = models.CharField(max_length=100)
@@ -20,15 +21,19 @@ class Room(Model):
     class Meta:
         unique_together = (("number", "idCinema"),)
 
+Room.objects.select_related('idCinema').all()
+Cinema.objects.prefetch_related('room_set').all()
+
 class Client(Model):
     name = models.CharField(max_length=50)
-    address = models.CharField(max_length=100)
+    adress = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, validators=[PhoneValidator])
     cardNumber = models.CharField(max_length=50, validators=[IBANValidator]) #TODO:revisar validacio de Numero de tarja
     email = models.CharField(max_length=50,validators=[EmailValidator("Must be a valid email")])
     DNI = models.CharField(max_length=9,validators=[DNIValidator],default='')
     alias = models.CharField(max_length=20,unique=True,default='')
     password = models.CharField(max_length=20,default='')
+    user = models.ForeignKey(User,on_delete=models.DO_NOTHING)
 
     def str(self) -> str:
         return self.name

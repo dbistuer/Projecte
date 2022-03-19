@@ -3,5 +3,30 @@
 {% block title %} Cinemas List {% endblock %}
 
 {% block body %}
-<h1>CinemasList</h1>
+<h1>List of Cinemas</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div clas="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Adress</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for room in rooms %}
+
+                {% endfor %}
+                {% for cinema in cinemas %}
+                <tr>
+                    <td>{{cinema.name}}</td>
+                    <td>{{cinema.adress}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
