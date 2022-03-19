@@ -28,7 +28,7 @@
                         <td>{{ticket.Room.number}}</td>
                         <td>{{ticket.Client.DNI}}</td>
                         <td>{{ticket.price}}</td>
-                        <td>{{ticket.date}}</td>
+                        <td>{{ ticket.date|date:"d/m/Y H:i" }}</td>
                     </tr>
                     {% endfor %}
                 {% else %}
