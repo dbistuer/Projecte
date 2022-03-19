@@ -4,11 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-def index(request):
-    cinemas = Cinema.objects.all()
-    json = {'cinemas':cinemas}
-    return render(request,'cinemas/index.html',json)
-
+def home(request):
+    return render(request,'cinemas/home.html')
 
 def CinemaList(request):
     cinemas = Cinema.objects.all()
@@ -33,6 +30,10 @@ def MovieList(request):
     json = {'movies': movies}
     return render(request, 'Movie/List.html', json)
 
+def ticket_list(request):
+    #tickets = Ticket.objects.all()
+    #json = {'tickets', tickets}
+    return render(request, 'Ticket/ticketList.html')
 
 def SignIn(request):
     if request.method == 'POST':

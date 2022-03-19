@@ -41,6 +41,8 @@ Login
     <p class="text-center">If you don' have an account, <a href="/Teatre/registration/SignIn">login</a> instead.</p>
     {# Assumes you setup the password_reset view in your URLconf #}
     <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    <p><a href="{% url 'register' %}">Not registered yet? Create a new account.</a></p>
+
 {% endblock %}
     
     

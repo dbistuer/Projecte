@@ -25,4 +25,6 @@ urlpatterns = [
     path('Movie/List', views.MovieList),
     path('Movie/Detail', views.MovieDetail),
     path('registration/SignIn', views.SignIn),
+    path('Ticket/List', views.ticket_list),
+
 ]
