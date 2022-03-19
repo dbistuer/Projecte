@@ -9,9 +9,7 @@ def home(request):
 
 def CinemaList(request):
     cinemas = Cinema.objects.all()
-    rooms = Room.objects.all()
-    json = {'cinemas':cinemas,
-            'rooms':rooms}
+    json ={'cinemas':cinemas}
     #TODO: GET ROMS
     return render(request, 'Cinema/List.html', json)
 
