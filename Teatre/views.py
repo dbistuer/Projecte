@@ -10,7 +10,6 @@ def home(request):
 def CinemaList(request):
     cinemas = Cinema.objects.all()
     json ={'cinemas':cinemas}
-    #TODO: GET ROMS
     return render(request, 'Cinema/List.html', json)
 
 def MovieDetail(request):
