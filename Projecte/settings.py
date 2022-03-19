@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-#import django_heroku
+import django_heroku
 from pathlib import Path
 import os
 
@@ -133,4 +133,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = '/accounts/login'
 
-#django_heroku.settings(locals())
+django_heroku.settings(locals())
