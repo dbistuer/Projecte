@@ -9,14 +9,9 @@ def home(request):
 
 def CinemaList(request):
     cinemas = Cinema.objects.all()
-    for cinema in cinemas:
-        cinema.room_set.all()
-        for room in cinema.room_set:
-            j=2
     rooms = Room.objects.all()
-    for room in rooms:
-        i = 0
-    json = {'cinemas':cinemas}
+    json = {'cinemas':cinemas,
+            'rooms':rooms}
     #TODO: GET ROMS
     return render(request, 'Cinema/List.html', json)
 
@@ -37,14 +32,20 @@ def ticket_list(request):
 
 def SignIn(request):
     if request.method == 'POST':
-        return render(request, 'registration/login.html',{'client':CreateClient(request)})
+        return render(request, 'registration/login.html',{'client':CRUDClient(request,Method.INSERT)})
     else:
         return render(request, 'registration/SignIn.html')
+
+def UserEdit(request,id):
+    if request.method == 'GET':
+        return render(request, 'User/Edit.html',{'client':Client.objects.get(id=id),'user':User.objects.get(id=id)})
+    elif request.method == 'POST':
+        CRUDClient(request,Method.UPDATE)
 
 def GetElementFromRequest(request,name):
     return request.POST[name]
 
-def CreateClient(request):
+def CRUDClient(request,Method):
     name = GetElementFromRequest(request, 'name')
     adress = GetElementFromRequest(request, 'adress')
     telephone = GetElementFromRequest(request, 'telephone')
@@ -53,9 +54,23 @@ def CreateClient(request):
     DNI = GetElementFromRequest(request, 'DNI')
     alias = GetElementFromRequest(request, 'alias')
     password = GetElementFromRequest(request, 'password')
-    return Client.objects.create(name=name,adress=adress,telephone=telephone,
-                                 cardNumber=cardNumber,email=email,DNI=DNI,
-                                 alias=alias,password=password,user=CreateBaseUser(alias,email,password))
+    if Method == Method.INSERT:
+        return Client.objects.create(name=name,adress=adress,telephone=telephone,
+                                 cardNumber=cardNumber,DNI=DNI,
+                                 alias=alias,password=password,user=CRUDBaseUser(alias,email,password,Method))
+    elif Method == Method.UPDATE:
+        client = Client.objects.get(id=GetElementFromRequest(request,'id'))
+        return client.update(name=name,adress=adress,telephone=telephone,
+                                 cardNumber=cardNumber,DNI=DNI,alias=alias,password=password,user=CRUDBaseUser(alias,email,password,Method,client.user.id))
+    elif Method == Method.DELETE:
+        client = Client.objects.get(id=GetElementFromRequest(request,'id'))
+        user = User.objects.get(client=client)
+        user.delete()
+        client.delete()
 
-def CreateBaseUser(alias,email,password):
-    return User.objects.create_user(alias,email,password)
+def CRUDBaseUser(alias,email,password,Method,id=0):
+    if Method == Method.INSERT:
+        return User.objects.create_user(alias,email,password)
+    elif Method == Method.UPDATE:
+        user = User.objects.get(id=id)
+        return user.update(alias,email,password)

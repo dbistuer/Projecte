@@ -32,8 +32,10 @@
             <li><a class="dropdown-item" href="/Teatre/Ticket/List">List of tickets</a></li>
 
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">User management</a></li>
-            <li><a class="dropdown-item" href="/SignIn">Register</a></li>
+              {% if user %}
+            <li><a class="dropdown-item" href="{% url 'UserEdit' user.id %}">User management</a></li>
+              {% endif %}
+            <li><a class="dropdown-item" href="/registration/SignIn">Register</a></li>
           </ul>
         </li>
         <li class="nav-item">
