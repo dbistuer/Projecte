@@ -1,3 +1,5 @@
+from enum import Enum
+
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Model
@@ -57,3 +59,8 @@ class Ticket(Model):
 
     class Meta:
         unique_together = (("date", "idClient", "idMovie", "idRoom"),)
+
+class Model(Enum):
+    INSERT = 1
+    UPDATE = 2
+    DELETE = 3
