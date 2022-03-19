@@ -3,12 +3,31 @@
 {% block title %} Movie List {% endblock %}
 
 {% block body %}
-<h1>MovieList</h1>
-    <ul>
-    {% for movie in movies %}
-        <li>
-            {{movie.name}} - {{movie.genere}} - {{movie.duration}} - {{movie.descripton}}
-        </li>
-    {% endfor %}
-    </ul>
+    <h1>List of movies</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div clas="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Duration</th>
+                    <th>Synopsis</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for movie in movies %}
+                <tr>
+                    <td>{{movie.name}}</td>
+                    <td>{{movie.genere}}</td>
+                    <td>{{movie.duration}}</td>
+                    <td>{{movie.descripton}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}
