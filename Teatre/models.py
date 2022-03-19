@@ -5,6 +5,11 @@ from django.db.models import Model
 from django.core.validators import RegexValidator
 from .validators import DNIValidator, PhoneValidator, IBANValidator
 
+
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 class Cinema(Model):
     adress = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
@@ -19,19 +24,22 @@ class Room(Model):
 
     class Meta:
         unique_together = (("number", "idCinema"),)
-
+    
 class Client(Model):
-    name = models.CharField(max_length=50)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     address = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, validators=[PhoneValidator])
     cardNumber = models.CharField(max_length=50, validators=[IBANValidator]) #TODO:revisar validacio de Numero de tarja
-    email = models.CharField(max_length=50,validators=[EmailValidator("Must be a valid email")])
     DNI = models.CharField(max_length=9,validators=[DNIValidator],default='')
-    alias = models.CharField(max_length=20,unique=True,default='')
-    password = models.CharField(max_length=20,default='')
 
-    def str(self) -> str:
-        return self.name
+    @receiver(post_save, sender=User)
+    def create_profile(sender, instance, created, **kwargs):
+        if created:
+            Client.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
 class Movie(Model):
     name = models.CharField(max_length=50)
