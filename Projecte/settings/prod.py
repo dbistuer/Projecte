@@ -6,21 +6,14 @@ import django_heroku
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': os.environ.get('ENGINE'),
-#        'NAME': os.environ.get('NAME'),
-#        'HOST': os.environ.get('HOST'),
-#        'PORT': os.environ.get('PORT'),
-#        'USER': os.environ.get('USER'),
-#        'PASSWORD': os.environ.get('PASSWORD')
-#    }
-#}
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'Teatre.sqlite3',
+        'ENGINE': os.environ.get('ENGINE'),
+        'NAME': os.environ.get('NAME'),
+        'HOST': os.environ.get('HOST'),
+        'PORT': os.environ.get('PORT'),
+        'USER': os.environ.get('USER'),
+        'PASSWORD': os.environ.get('PASSWORD')
     }
 }
 
