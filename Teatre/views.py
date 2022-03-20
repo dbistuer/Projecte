@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from .models import *
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import redirect
+from django.contrib.auth.models import User
+from .validators import DNIValidator, PhoneValidator, IBANValidator
 # Create your views here.
 
 def home(request):
@@ -27,47 +29,115 @@ def ticket_list(request):
     json = {'tickets': tickets}
     return render(request, 'Ticket/List.html',json)
 
-def SignIn(request):
-    if request.method == 'POST':
-        return render(request, 'registration/login.html',{'client':CRUDClient(request,Method.INSERT)})
-    else:
-        return render(request, 'registration/SignIn.html')
+@login_required
+def profile(request):
+    user=request.user
+    client = Client.objects.get(user=user)
+    json = {'user': client,}                        
+    return render(request, 'User/profile.html', json)
 
-def UserEdit(request,id):
+@login_required
+def edit_profile(request):
+    user=request.user
+    client = Client.objects.get(user=user)
     if request.method == 'GET':
-        return render(request, 'User/Edit.html',{'client':Client.objects.get(id=id),'user':User.objects.get(id=id)})
+        json = {'user': client,}   
+        return render(request, 'User/ModifyProfile.html', json)
     elif request.method == 'POST':
-        CRUDClient(request,Method.UPDATE)
+        name = request.POST['name']
+        DNI =request.POST['DNI']
+        address = request.POST['address']
+        phoneNumber =request.POST['phoneNumber']
+        email =request.POST['email']
+        alias =request.POST['alias']
+        cardNumber = request.POST['cardNumber']
 
-def GetElementFromRequest(request,name):
-    return request.POST[name]
+        error = validate_data(DNI, cardNumber, phoneNumber)
+        if error:
+            json = {'error': error, 'register': False}
+            return render(request, 'registration/InvalidValues.html', json)
+        
+     
 
-def CRUDClient(request,Method):
-    name = GetElementFromRequest(request, 'name')
-    adress = GetElementFromRequest(request, 'adress')
-    telephone = GetElementFromRequest(request, 'telephone')
-    cardNumber = GetElementFromRequest(request, 'cardNumber')
-    email = GetElementFromRequest(request, 'email')
-    DNI = GetElementFromRequest(request, 'DNI')
-    alias = GetElementFromRequest(request, 'alias')
-    password = GetElementFromRequest(request, 'password')
-    if Method == Method.INSERT:
-        return Client.objects.create(name=name,adress=adress,telephone=telephone,
-                                 cardNumber=cardNumber,DNI=DNI,
-                                 alias=alias,password=password,user=CRUDBaseUser(alias,email,password,Method))
-    elif Method == Method.UPDATE:
-        client = Client.objects.get(id=GetElementFromRequest(request,'id'))
-        return client.update(name=name,adress=adress,telephone=telephone,
-                                 cardNumber=cardNumber,DNI=DNI,alias=alias,password=password,user=CRUDBaseUser(alias,email,password,Method,client.user.id))
-    elif Method == Method.DELETE:
-        client = Client.objects.get(id=GetElementFromRequest(request,'id'))
-        user = User.objects.get(client=client)
-        user.delete()
-        client.delete()
+        if alias:
+            if User.objects.filter(username=alias).exists() and not user.username==alias:
+                json = {'error': 'Username already exist, you will have to choose another one.', 'register': False}
+                return render(request, 'registration/InvalidValues.html', json)
+            user.username = alias
+        if name:
+            user.first_name = name
+        if email:
+            user.email = email
+        
+        user.save()
+        
+        if DNI:
+            client.DNI = DNI
+        if cardNumber:
+            client.cardNumber = cardNumber
+        if phoneNumber:
+            client.telephone = phoneNumber
+        if address:
+            client.address = address
 
-def CRUDBaseUser(alias,email,password,Method,id=0):
-    if Method == Method.INSERT:
-        return User.objects.create_user(alias,email,password)
-    elif Method == Method.UPDATE:
-        user = User.objects.get(id=id)
-        return user.update(alias,email,password)
+        client.save()
+        return redirect('profile')
+
+def SignIn(request):
+    if request.method == 'GET':
+        return render(request, 'registration/SignIn.html')
+    
+    if request.method == 'POST':
+        name = request.POST['name']
+        DNI =request.POST['DNI']
+        address = request.POST['address']
+        phoneNumber =request.POST['phoneNumber']
+        email =request.POST['email']
+        alias =request.POST['alias']
+        password = request.POST['password']
+        cardNumber = request.POST['cardNumber']
+        
+        # Validate input data
+        if not (name and DNI and address and phoneNumber and email and alias and password and cardNumber):
+            # Missing values
+            return render(request, 'registration/MissingValues.html')
+
+        error = validate_data(DNI, cardNumber, phoneNumber)
+        if error:
+            json = {'error': error, 'register': True}
+            return render(request, 'registration/InvalidValues.html', json)
+        
+        if User.objects.filter(username=alias).exists():
+            json = {'error': 'Username already exist, you will have to choose another one.', 'register': True}
+            return render(request, 'registration/InvalidValues.html', json)
+
+        user=User(username=alias, email=email, first_name=name)
+        user.set_password(password)
+        user.save()
+
+        client = Client.objects.get(user=user)
+        client.address = address
+        client.DNI = DNI
+        client.cardNumber = cardNumber
+        client.telephone = phoneNumber
+        client.save()
+        return redirect('login')
+        
+def validate_data(DNI='', cardNumber='', phoneNumber=''):
+    error = ''
+    if DNI:
+        try:
+            DNIValidator(DNI)
+        except:
+            error += 'DNI is not valid.' 
+    if cardNumber:
+        try:
+            IBANValidator(cardNumber)
+        except:
+            error += 'IBAN is not valid.   '
+    if phoneNumber:
+        try:
+            PhoneValidator(phoneNumber)    
+        except:
+            error += 'Phone number is not valid.   '
+    return error

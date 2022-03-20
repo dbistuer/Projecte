@@ -18,15 +18,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home),
     #Cinema
     path('Cinema/List', views.CinemaList),
     #Movie
     path('Movie/List', views.MovieList),
     path('Movie/Detail', views.MovieDetail),
-
     path('Ticket/List', views.ticket_list),
-    #User
-    path('registration/SignIn', views.SignIn),
-    path('User/Edit/<int:id>',views.UserEdit, name='UserEdit'),
 ]

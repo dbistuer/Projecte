@@ -25,9 +25,9 @@ class Room(Model):
     
 class Client(Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    adress = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
     telephone = models.CharField(max_length=15, validators=[PhoneValidator])
-    cardNumber = models.CharField(max_length=50, validators=[IBANValidator]) #TODO:revisar validacio de Numero de tarja
+    cardNumber = models.CharField(max_length=50, validators=[IBANValidator])
     DNI = models.CharField(max_length=9,validators=[DNIValidator],default='')
 
     @receiver(post_save, sender=User)
