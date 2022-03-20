@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-vz!ba3q!^=8y0ud!(i4a#eo8qib0-x6&l#8&e7q-pk%skk^9iv'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-ALLOWED_HOSTS = ['*', 'cinemawebproject.herokuapp.com', '127.0.0.1']
+
+
 
 
 # Application definition
@@ -72,20 +71,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Projecte.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd7591iv265c85a',
-        'HOST': 'ec2-3-209-61-239.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'iklmhpwwltxoao',
-        'PASSWORD': '6ee43aca247ef6a8cbe2608dee80597dbbed0368290dc52474c8deda28a81307'
-
-    }
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -136,5 +122,3 @@ LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = '/accounts/login'
-
-#django_heroku.settings(locals())
