@@ -37,7 +37,25 @@
           </ul>
         </li>
       </ul>
-      <span class="navbar-text">{{client.name}}</span>
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="DropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {% if user.is_authenticated %}
+                      {{ user.username }}
+                  {% else %}
+                  User
+                  {% endif %}
+              </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if not user.is_authenticated %}
+            <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="{%url 'edit_profile' %}">Edit</a></li>
+            <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
+              {% endif %}
+        </ul>
+          </li>
+      </ul>
     </div>
   </div>
 </nav>

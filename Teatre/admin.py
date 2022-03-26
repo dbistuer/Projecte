@@ -1,9 +1,10 @@
 from django.contrib import admin
-from Teatre.models import Movie, Room, Client, Cinema, Ticket
+from django.apps import apps
 
-# Register your models here.
-admin.site.register(Movie)
-admin.site.register(Client)
-admin.site.register(Room)
-admin.site.register(Cinema)
-admin.site.register(Ticket)
+models = apps.get_app_config('Teatre').get_models()
+
+for model in models:
+    try:
+        admin.site.register(model)
+    except AlreadyRegistered:
+        pass
