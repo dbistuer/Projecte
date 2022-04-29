@@ -4,8 +4,9 @@ from .account import Client
 from .cinema_ import Room
 from Projecte.settings.base import MEDIA_ROOT as media
 
+
 class Movie(Model):
-    image = models.ImageField(upload_to=media,null=True)
+    image = models.ImageField(upload_to=media + '/movie', null=True)
     name = models.CharField(max_length=50)
     genere = models.CharField(max_length=50)
     duration = models.IntegerField()
@@ -14,6 +15,7 @@ class Movie(Model):
 
     def str(self):
         return "Id: %s Movie name: %s Genre: %s Movie duration: %s" % (self.id, self.name, self.genre, self.duration)
+
 
 class Ticket(Model):
     date = models.DateTimeField(auto_now=True)

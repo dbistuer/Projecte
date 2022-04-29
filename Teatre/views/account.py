@@ -8,21 +8,22 @@ from Teatre.validators import DNIValidator, PhoneValidator, IBANValidator
 
 @login_required
 def profile(request):
-    user =request.user
+    user = request.user
     client = Client.objects.get(user=user)
-    json = {'user': client ,}
+    json = {'user': client, }
     return render(request, 'User/profile.html', json)
+
 
 @login_required
 def edit_profile(request):
-    user =request.user
+    user = request.user
     client = Client.objects.get(user=user)
     if request.method == 'GET':
-        json = {'user': client ,}
+        json = {'user': client, }
         return render(request, 'User/ModifyProfile.html', json)
     elif request.method == 'POST':
         name = request.POST['name']
-        DNI =request.POST['DNI']
+        DNI = request.POST['DNI']
         address = request.POST['address']
         phoneNumber = request.POST['phoneNumber']
         email = request.POST['email']
