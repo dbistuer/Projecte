@@ -1,66 +1,41 @@
 from django.shortcuts import render
-from .models import *
+from Teatre.models import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from .validators import DNIValidator, PhoneValidator, IBANValidator
-# Create your views here.
+from Teatre.validators import DNIValidator, PhoneValidator, IBANValidator
 
-def home(request):
-    return render(request,'cinemas/home.html')
-
-def CinemaList(request):
-    cinemas = Cinema.objects.all()
-    json ={'cinemas':cinemas}
-    return render(request, 'Cinema/List.html', json)
-
-def MovieDetail(request):
-    movies = Movie.objects.all()
-    json = {'movies':movies}
-    return render(request, 'Movie/Detail.html', json)
-
-def MovieList(request):
-    movies = Movie.objects.all()
-    json = {'movies': movies}
-    return render(request, 'Movie/List.html', json)
-
-def ticket_list(request):
-    tickets = Ticket.objects.all()
-    json = {'tickets': tickets}
-    return render(request, 'Ticket/List.html',json)
 
 @login_required
 def profile(request):
-    user=request.user
+    user =request.user
     client = Client.objects.get(user=user)
-    json = {'user': client,}                        
+    json = {'user': client ,}
     return render(request, 'User/profile.html', json)
 
 @login_required
 def edit_profile(request):
-    user=request.user
+    user =request.user
     client = Client.objects.get(user=user)
     if request.method == 'GET':
-        json = {'user': client,}   
+        json = {'user': client ,}
         return render(request, 'User/ModifyProfile.html', json)
     elif request.method == 'POST':
         name = request.POST['name']
         DNI =request.POST['DNI']
         address = request.POST['address']
-        phoneNumber =request.POST['phoneNumber']
-        email =request.POST['email']
-        alias =request.POST['alias']
+        phoneNumber = request.POST['phoneNumber']
+        email = request.POST['email']
+        alias = request.POST['alias']
         cardNumber = request.POST['cardNumber']
 
         error = validate_data(DNI, cardNumber, phoneNumber)
         if error:
             json = {'error': error, 'register': False}
             return render(request, 'registration/InvalidValues.html', json)
-        
-     
 
         if alias:
-            if User.objects.filter(username=alias).exists() and not user.username==alias:
+            if User.objects.filter(username=alias).exists() and not user.username == alias:
                 json = {'error': 'Username already exist, you will have to choose another one.', 'register': False}
                 return render(request, 'registration/InvalidValues.html', json)
             user.username = alias
@@ -68,9 +43,9 @@ def edit_profile(request):
             user.first_name = name
         if email:
             user.email = email
-        
+
         user.save()
-        
+
         if DNI:
             client.DNI = DNI
         if cardNumber:
@@ -83,20 +58,21 @@ def edit_profile(request):
         client.save()
         return redirect('profile')
 
+
 def SignIn(request):
     if request.method == 'GET':
         return render(request, 'registration/SignIn.html')
-    
+
     if request.method == 'POST':
         name = request.POST['name']
-        DNI =request.POST['DNI']
+        DNI = request.POST['DNI']
         address = request.POST['address']
-        phoneNumber =request.POST['phoneNumber']
-        email =request.POST['email']
-        alias =request.POST['alias']
+        phoneNumber = request.POST['phoneNumber']
+        email = request.POST['email']
+        alias = request.POST['alias']
         password = request.POST['password']
         cardNumber = request.POST['cardNumber']
-        
+
         # Validate input data
         if not (name and DNI and address and phoneNumber and email and alias and password and cardNumber):
             # Missing values
@@ -106,12 +82,12 @@ def SignIn(request):
         if error:
             json = {'error': error, 'register': True}
             return render(request, 'registration/InvalidValues.html', json)
-        
+
         if User.objects.filter(username=alias).exists():
             json = {'error': 'Username already exist, you will have to choose another one.', 'register': True}
             return render(request, 'registration/InvalidValues.html', json)
 
-        user=User(username=alias, email=email, first_name=name)
+        user = User(username=alias, email=email, first_name=name)
         user.set_password(password)
         user.save()
 
@@ -122,14 +98,15 @@ def SignIn(request):
         client.telephone = phoneNumber
         client.save()
         return redirect('login')
-        
+
+
 def validate_data(DNI='', cardNumber='', phoneNumber=''):
     error = ''
     if DNI:
         try:
             DNIValidator(DNI)
         except:
-            error += 'DNI is not valid.' 
+            error += 'DNI is not valid.'
     if cardNumber:
         try:
             IBANValidator(cardNumber)
@@ -137,7 +114,7 @@ def validate_data(DNI='', cardNumber='', phoneNumber=''):
             error += 'IBAN is not valid.   '
     if phoneNumber:
         try:
-            PhoneValidator(phoneNumber)    
+            PhoneValidator(phoneNumber)
         except:
             error += 'Phone number is not valid.   '
     return error
