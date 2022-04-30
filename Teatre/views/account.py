@@ -30,7 +30,6 @@ return render(request, 'hola.html', {'request': request})
 """
 
 @login_required
-@user_passes_test(lambda user: user.is_active)   # Normal Client
 def profile(request):
     user = request.user
     client = Client.objects.get(user=user)
@@ -122,6 +121,17 @@ def SignIn(request):
         client.save()
         return redirect('login')
 
+@login_required
+def delete_user(request):
+    if request.method == 'GET':
+        return render(request, 'User/delete_user.html', {'user': request.user})
+    elif request.method == 'POST':
+        user = request.user
+        json = {'name': user.username,}
+        client = Client.objects.get(user=user)
+        client.delete()
+        user.delete()
+        return render(request, 'User/user_deleted.html', json)
 
 def validate_data(DNI='', cardNumber='', phoneNumber=''):
     error = ''
