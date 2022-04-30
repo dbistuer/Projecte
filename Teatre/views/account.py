@@ -1,18 +1,41 @@
 from django.shortcuts import render
+
 from Teatre.models import *
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from django.contrib.auth.models import User
 from Teatre.validators import DNIValidator, PhoneValidator, IBANValidator
+from django.contrib.auth.decorators import user_passes_test
 
+"""
+How to check the user roles:
+
+-Before the view function:
+@user_passes_test(lambda user: user.is_active)   # Normal Client
+@user_passes_test(lambda user: user.is_staff)   # Employee
+@user_passes_test(lambda user: user.is_superuser) # Admin user
+
+-Inside the view function:
+if request.user.is_active:  # Normal client
+if request.user.is_staff   # Employee
+if request.user.is_superuser # Admin user
+
+-Inside the html file:
+# View
+return render(request, 'hola.html', {'request': request})
+# hola.html
+{% if request.user.is_active %} # Normal client
+{% if request.user.is_staff %} # Employee
+{% if request.user.is_superuser %} # Admin user
+
+"""
 
 @login_required
+@user_passes_test(lambda user: user.is_active)   # Normal Client
 def profile(request):
     user = request.user
     client = Client.objects.get(user=user)
     json = {'user': client, }
     return render(request, 'User/profile.html', json)
-
 
 @login_required
 def edit_profile(request):
@@ -58,7 +81,6 @@ def edit_profile(request):
 
         client.save()
         return redirect('profile')
-
 
 def SignIn(request):
     if request.method == 'GET':

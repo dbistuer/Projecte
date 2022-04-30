@@ -16,8 +16,9 @@ Sign in
       {% endfor %}
     </ul>
     {% endif %}
-    <form method="POST">
+        <form method="POST">
         {% csrf_token %}
+
         <div class="form-group">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" name="name" placeholder="Name">
@@ -27,7 +28,7 @@ Sign in
             <input type="text" class="form-control" id="DNI" name="DNI" placeholder="79038471B">
         </div>
         <div class="form-group">
-            <label for="address">Your adress</label>
+            <label for="address">Your address</label>
             <input type="text" class="form-control" id="address" name="address" placeholder="C/Paraguay nº5, Lleida">
         </div>
             <div class="form-group">
@@ -55,6 +56,7 @@ Sign in
         </div>
         <p class="text-center">If you already have an account, <a href="/accounts/login/">login</a> instead.</p>
      </form>
+
     </div>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384 JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}
