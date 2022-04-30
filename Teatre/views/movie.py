@@ -13,3 +13,11 @@ def MovieList(request):
     movies = Movie.objects.all()
     json = {'movies': movies,'MEDIA_ROOT':MEDIA_ROOT}
     return render(request, 'Movie/List.html', json)
+
+def Movie_(request,**kwargs):
+    id = int(kwargs.get('id'))
+    movie = Movie.objects.get(id=id)
+    json = {'movie': movie}
+    if request.method == 'POST':
+        type = kwargs.get('type')
+    return render(request,'Movie/movie.html',json)
