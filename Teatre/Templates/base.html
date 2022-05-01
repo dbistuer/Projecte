@@ -20,6 +20,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+        </li>
           {% endif %}
         <li class="nav-item dropdown">
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
@@ -32,9 +35,6 @@
             <li><a class="dropdown-item" href="/Teatre/Movie/List">List of movies</a></li>
             <li><a class="dropdown-item" href="/Teatre/Ticket/List">List of tickets</a></li>
 
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/profile">Profile</a></li>
-            <li><a class="dropdown-item" href="/SignIn">Register</a></li>
           </ul>
         </li>
       </ul>
@@ -47,12 +47,31 @@
                   User
                   {% endif %}
               </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left:-90px">
             {% if not user.is_authenticated %}
             <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+            <li><a class="dropdown-item" href="{%url 'register' %}">New account</a></li>
+
             {% else %}
-            <li><a class="dropdown-item" href="{%url 'edit_profile' %}">Edit</a></li>
-            <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
+              {% if user.is_superuser %}
+                <li><a class="dropdown-item" href="{%url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{%url 'edit_profile' %}">Edit profile</a></li>
+                <li><a class="dropdown-item" href="{%url 'user_management' %}" >User management</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{%url 'register' %}">New account</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item list-group-item-danger" href="{%url 'delete_user' %}">Delete account</a></li>
+                <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
+              {% else %}
+                <li><a class="dropdown-item" href="{%url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{%url 'edit_profile' %}">Edit profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{%url 'register' %}">New account</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item list-group-item-danger" href="{%url 'delete_user' %}">Delete account</a></li>
+                <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
+              {% endif %}
+
               {% endif %}
         </ul>
           </li>
