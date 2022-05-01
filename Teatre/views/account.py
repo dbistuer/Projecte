@@ -51,7 +51,7 @@ def edit_profile(request):
 
     # Show the form
     if request.method == 'GET':
-        json = {'user': client, }
+        json = {'client': client, }
         return render(request, 'User/ModifyProfile.html', json)
 
     # Apply modifications
