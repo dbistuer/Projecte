@@ -44,6 +44,7 @@ def edit_profile(request):
         json = {'user': client, }
         return render(request, 'User/ModifyProfile.html', json)
     elif request.method == 'POST':
+        # Get form data
         name = request.POST['name']
         DNI = request.POST['DNI']
         address = request.POST['address']
@@ -52,12 +53,14 @@ def edit_profile(request):
         alias = request.POST['alias']
         cardNumber = request.POST['cardNumber']
 
+        # Check errors
         error = validate_data(DNI, cardNumber, phoneNumber)
         if error:
             json = {'error': error, 'register': False}
             return render(request, 'registration/InvalidValues.html', json)
 
         if alias:
+            # Check if user exists
             if User.objects.filter(username=alias).exists() and not user.username == alias:
                 json = {'error': 'Username already exist, you will have to choose another one.', 'register': False}
                 return render(request, 'registration/InvalidValues.html', json)
@@ -132,6 +135,41 @@ def delete_user(request):
         client.delete()
         user.delete()
         return render(request, 'User/user_deleted.html', json)
+
+@login_required
+@user_passes_test(lambda user: user.is_superuser)
+def user_management(request):
+    if request.method == 'GET':
+        staff_users = User.objects.filter(is_staff=True, is_superuser=False, is_active=True)
+        normal_users = User.objects.filter(is_active=True, is_staff=False, is_superuser=False)
+        admin_users = User.objects.filter(is_superuser=True, is_staff=True, is_active=True)
+
+        return render(request, 'User/user_management.html', {'staff_clients': staff_users,
+                                                             'normal_clients': normal_users,
+                                                             'admin_clients': admin_users,
+                                                             'user': request.user,})
+    elif request.method == 'POST':
+        print(request.POST['user_role'])
+        print(request.POST['username'])
+
+        user = User.objects.get(username=request.POST['username'])
+        if request.POST['user_role'] == 'admin':
+            user.is_staff = True
+            user.is_active = True
+            user.is_superuser = True
+        elif request.POST['user_role'] == 'employee':
+            user.is_staff = True
+            user.is_active = True
+            user.is_superuser = False
+        elif request.POST['user_role'] == 'normal_client':
+            user.is_staff = False
+            user.is_active = True
+            user.is_superuser = False
+
+        user.save()
+
+        return redirect('user_management')
+
 
 def validate_data(DNI='', cardNumber='', phoneNumber=''):
     error = ''
