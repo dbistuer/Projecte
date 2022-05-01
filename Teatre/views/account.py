@@ -143,32 +143,36 @@ def user_management(request):
         staff_users = User.objects.filter(is_staff=True, is_superuser=False, is_active=True)
         normal_users = User.objects.filter(is_active=True, is_staff=False, is_superuser=False)
         admin_users = User.objects.filter(is_superuser=True, is_staff=True, is_active=True)
-
         return render(request, 'User/user_management.html', {'staff_clients': staff_users,
                                                              'normal_clients': normal_users,
                                                              'admin_clients': admin_users,
                                                              'user': request.user,})
     elif request.method == 'POST':
-        print(request.POST['user_role'])
-        print(request.POST['username'])
+        if 'delete' in request.POST.keys():
+            user = User.objects.get(username=request.POST['delete'])
+            client = Client.objects.get(user=user)
+            client.delete()
+            user.delete()
 
-        user = User.objects.get(username=request.POST['username'])
-        if request.POST['user_role'] == 'admin':
-            user.is_staff = True
-            user.is_active = True
-            user.is_superuser = True
-        elif request.POST['user_role'] == 'employee':
-            user.is_staff = True
-            user.is_active = True
-            user.is_superuser = False
-        elif request.POST['user_role'] == 'normal_client':
-            user.is_staff = False
-            user.is_active = True
-            user.is_superuser = False
+        elif 'user_role' in request.POST.keys():
+            user = User.objects.get(username=request.POST['username'])
+            if request.POST['user_role'] == 'admin':
+                user.is_staff = True
+                user.is_active = True
+                user.is_superuser = True
+            elif request.POST['user_role'] == 'employee':
+                user.is_staff = True
+                user.is_active = True
+                user.is_superuser = False
+            elif request.POST['user_role'] == 'normal_client':
+                user.is_staff = False
+                user.is_active = True
+                user.is_superuser = False
 
-        user.save()
+            user.save()
 
         return redirect('user_management')
+
 
 
 def validate_data(DNI='', cardNumber='', phoneNumber=''):
