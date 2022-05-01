@@ -36,7 +36,7 @@ This view shows on screen information of a logged user
 def profile(request):
     user = request.user
     client = Client.objects.get(user=user)
-    json = {'user': client, }
+    json = {'client': client, }
     return render(request, 'User/profile.html', json)
 
 """
