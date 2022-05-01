@@ -12,9 +12,11 @@
                 <tr>
                     <th>Name</th>
                     <th>Image</th>
+                    <th>Classification</th>
                     <th>Gender</th>
                     <th>Duration</th>
                     <th>Synopsis</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -22,9 +24,15 @@
                 <tr>
                     <td>{{movie.name}}</td>
                     <td><img src="{{MEDIA_ROOT}}/{{movie.image}}" alt="{{ movie.name }}"></td>
-                    <td>{{movie.genere}}</td>
+                    {% if movie.classification == 'X' %}
+                        <td>+18</td>
+                    {% else %}
+                        <td>{% if movie.classification != 'APTA' %}+{% endif %}{{movie.classification}}</td>
+                    {% endif %}
+                    <td>{{movie.gender}}</td>
                     <td>{{movie.duration}}</td>
-                    <td>{{movie.descripton}}</td>
+                    <td>{{movie.synopsis}}</td>
+                    <td><a class="btn btn-primary" href="{% url 'movie_detail' movie.id %}">Detail</a> </td>
                 </tr>
                 {% endfor %}
                 </tbody>
