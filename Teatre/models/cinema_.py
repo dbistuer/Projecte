@@ -6,8 +6,6 @@ from django.db.models import Model
 class Cinema(Model):
     adress = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
-    # rooms =
-    #TODO add list
     description = models.CharField(max_length=100)
 
 
