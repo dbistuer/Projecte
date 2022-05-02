@@ -20,7 +20,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                                 {% if tickets|length != 0 %}
+                {% if tickets|length != 0 %}
                     {% for ticket in tickets %}
                     <tr>
                         <td>{{ticket.Movie.name}}</td>

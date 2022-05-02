@@ -136,4 +136,6 @@ GitHub.sublime-settings
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+/Teatre/migrations/0008_alter_movie_image.py
+/Teatre/migrations/0007_movie_image_employee.py
 .idea/

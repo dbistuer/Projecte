@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% url 'movie_detail' as movie_detail %}
+{% url 'movie_edit_delete' as movie_edit_delete %}
+{% block title %} Movie Detail {% endblock %}
+{% block css %}
+    .notify-badge{
+        position: absolute;
+        right: 0px;
+        bottom:(screen.widht/2);
+    }
+{%endblock%}
+{% block body %}
+<div class="container">
+    <h1>Movie Detail</h1>
+    <div class="card">
+        <span class="notify-badge badge badge-pill badge-warning">{{movie.classification}}</span>
+        <img src="{{ movie.image }}" class="card-img-top" alt="{{movie.name}}">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ movie.name}}</h5>
+            <hr/>
+                <div class="d-flex">
+                    <p><b>Gender:</b> {{movie.gender}}</p>
+                    <p class="ms-auto"><b>Duration:</b> {{movie.duration}}'</p>
+                </div>
+            <hr/>
+            <p class="card-text">{{ movie.synopsis}}</p>
+            <div class="card-footer text-muted d-flex">
+                <a href="{% url 'movie_delete' movie.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'movie_edit' movie.id %}" class="ms-auto btn btn-warning">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
