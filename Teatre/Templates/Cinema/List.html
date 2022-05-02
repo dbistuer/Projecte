@@ -13,6 +13,7 @@
                     <th>Name</th>
                     <th>Adress</th>
                     <th>Rooms</th>
+                    <th>Description</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,6 +22,7 @@
                         <td>{{ cinema.name }}</td>
                         <td>{{ cinema.adress }}</td>
                         <td>{{ cinema.room_set.values.count }}</td>
+                        <td>{{ cinema.description }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
