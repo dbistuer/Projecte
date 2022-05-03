@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% url 'movie_detail' as movie_detail %}
+{% url 'movie_edit_delete' as movie_edit_delete %}
+<!-- TODO change url? -->
+{% block title %} Cinema Detail {% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Cinema Detail</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ cinema.name}}</h5>
+            <hr/>
+                <div class="d-flex">
+                    <p><b>Address:</b> {{cinema.address}}</p>
+                </div>
+            <hr/>
+            <p class="card-text">{{ cinema.description}}</p>
+            <div class="card-footer text-muted d-flex">
+                <a href="{% url 'cinema_delete' cinema.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'cinema_edit' cinema.id %}" class="ms-auto btn btn-warning">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
