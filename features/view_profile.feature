@@ -1,7 +1,7 @@
 Feature: View profile
-  In order check my user profile
+  In order to check my user profile
   As a logged user
-  I want view my profile
+  I want to view my profile
 
   Background: There is a registered user 
     Given Exists the following user
