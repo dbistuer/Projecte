@@ -1,9 +1,4 @@
-from behave import *                                                                                          
-"""
- https://www.tutorialspoint.com/behave/behave_quick_guide.htm
- https://behave-django.readthedocs.io/en/stable/webbrowser.html
- https://splinter.readthedocs.io/en/latest/matchers.html
-"""
+from behave import *
 
 @when(u'I register client')
 def step_impl(context):
