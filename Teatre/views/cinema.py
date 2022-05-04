@@ -19,8 +19,8 @@ def Create_sala(request):
             cine = Cinema.objects.get(pk=request.POST['cinema'])
 
         else:
-            return render(request, '#',{'success' : False, 'cines' : cines_list})
+            return render(request, 'Cinema/new_room.html',{'success' : False, 'cines' : cines_list})
         Room.objects.create(capacity=capacity,number=number,Cinema_id=cine)
-        return render(request, '#',{'success': True, 'cines': cines_list})
+        return render(request, 'Cinema/new_room.html',{'success': True, 'cines': cines_list})
     else:
-        return render(request, '#',{'cines': cines_list})
+        return render(request, 'Cinema/new_room.html',{'cines': cines_list})
