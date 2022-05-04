@@ -11,7 +11,7 @@ Delete user
 <h2> Hello {{user.username}}! Are you sure you want to permanently delete your account?</h2>
 
 <form action="{% url 'delete_user' %}" method="post"> {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Yes, I want to delete my account</button>
+    <button type="submit" class="btn btn-primary" value="delete">Yes, I want to delete my account</button>
 </form>
 
 <form action="/" method="get">{% csrf_token %}

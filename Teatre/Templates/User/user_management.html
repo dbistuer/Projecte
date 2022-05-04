@@ -36,13 +36,15 @@ User management
                                         <option value="employee">Employee</option>
 
                                     </select> </td>
-                                    <td><button name="username" value={{normal.username}} type="submit" class="btn btn-primary">Change role</button> </td>
-                                </form>
-                                    <form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
+                                        <td><button name="username" value={{normal.username}} type="submit" class="btn btn-primary" >Change role</button> </td>
                                         <td><button name="delete" value={{normal.username}} type="submit" class="btn btn-danger"> Delete user</button> </td>
                                     </form>
-
                             </tr>
+                         
+                            
+
+                               
+
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -61,12 +63,12 @@ User management
                                         <option value="admin">Admin</option>
                                         <option value="normal_client">Normal client</option>
                                     </select> </td>
-                                    <td><button name="username" value={{staff.username}} type="submit" class="btn btn-primary">Change role</button> </td>
-                                </form>
-
-                                    <form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
+                                        <td><button name="username" value={{staff.username}} type="submit" class="btn btn-primary">Change role</button> </td>
                                         <td><button name="delete" value={{staff.username}} type="submit" class="btn btn-danger"> Delete user</button> </td>
-                                    </form>
+                                </form>
+                               
+                                
+                                   
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -85,14 +87,12 @@ User management
                                         <option value="employee">Employee</option>
                                         <option value="normal_client">Normal client</option>
                                     </select> </td>
-                                    <td><button name="username" value={{admin.username}} type="submit" class="btn btn-primary">Change role</button> </td>
-                                </form>
-                                <form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
-                                    <td><button name="delete" value={{admin.username}} type="submit" class="btn btn-danger"> Delete user</button> </td>
-                                </form>
-
+                                        <td><button name="username" value={{admin.username}} type="submit" class="btn btn-primary" >Change role</button> </td>
+                                        <td><button name="delete" value={{admin.username}} type="submit" class="btn btn-danger" > Delete user</button> </td>
                             </tr>
-                        {% endif %}
+                         </form>
+                           
+                                {% endif %}
                     {% endfor %}
 
                 {% endif %}
