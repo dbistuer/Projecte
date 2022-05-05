@@ -6,14 +6,22 @@
 
 
 <div class="container">
-    <h1>Lista de salas</h1>
+    <h1 class="">Lista de salas </h1>
+    <div class="row">
+        <div class="col-12">
+            <h4><b></b> </h4>
+            <h1><b>Cinema:</b> {{ cinema.name }}</h1>
+            <h4 class="border-bottom"> </h4>
+            <h4><b>Direcció:</b> {{ cinema.adress }}</h4>
+        </div>
+    </div>
     <form action="" method="POST">
         {% csrf_token %}
 
     </form>
 
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div clas="table-responsive py-2 ">
+        <div class="table-responsive py-2 ">
             <table class="table table-striped text-truncate">
                 <thead>
                 <tr>
@@ -32,34 +40,6 @@
                     <th scope="row" hidden><input type="number" id="id_room{{room.id}}" name="id_room{{room.id}}" value="{{room.id}}" readonly required/></th>
                     <td>{{room.number}}</td>
                     <td>{{room.capacity}}</td>
-                    <td>
-                            <h4>
-                                <span class="badge badge-pill
-                        {% if inciden.estadoIn == 'PD' %}
-                            bg-warning">{{'Incidencia pendiente'}}
-                        {% elif inciden.estadoIn == 'SC' %}
-                            bg-success">{{'Incidencia solucionada'}}
-                        {% elif inciden.estadoIn == 'EP' %}
-                            bg-info">{{'Incidencia en progreso'}}
-                        {% else %}
-                            bg-danger">Error en la solicitud
-                        {% endif%}
-                                </span>
-                            </h4>
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                {% if  user.is_cliente %}
-                                    {% if not inciden.estadoIn == 'PD'  %}
-                                        <a class="btn btn-primary btn-block" href=# >Detalles</a>
-                                    {% else %}
-                                        <a class="btn btn-danger btn-block text-white disabled " href=# >Cerrada</a>
-                                    {% endif %}
-                                {% elif user.is_servicios_adicionales %}
-                                    <a class="btn btn-primary btn-block text-white text-truncate" href=# >Valorar incidencia</a>
-                                {% endif %}
-                            </div>
-                        </td>
                 </tr>
                 {% endfor %}
 

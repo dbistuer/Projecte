@@ -29,6 +29,7 @@ def Create_sala(request):
 
 def room_list(request, id_cinema):
     if request.method == 'GET':
+        #Falta poner la pantalla de errores como dijo el profesor virgili para que no puedan mapear la bbdd (try, except)
         cine = Cinema.objects.get(id=id_cinema )
         rooms = Room.objects.filter(Cinema_id=cine.id)
         return render(request,'Cinema/room_list.html',{'rooms': rooms, 'cinema' : cine})
