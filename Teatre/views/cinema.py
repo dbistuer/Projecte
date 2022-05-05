@@ -24,4 +24,12 @@ def Create_sala(request):
         Room.objects.create(capacity=capacity,number=number,Cinema_id=cine.id)
         return render(request, 'Cinema/new_room.html',{'success': True, 'cines': cines_list})
     else:
-        return render(request, 'Cinema/new_room.html',{'success': 'fenomeno', 'cines': cines_list})
+        return render(request, 'Cinema/new_room.html',{'success': '.', 'cines': cines_list})
+
+
+def room_list(request, id_cinema):
+    if request.method == 'GET':
+        cine = Cinema.objects.get(id=id_cinema )
+        rooms = Room.objects.filter(Cinema_id=cine.id)
+        return render(request,'Cinema/room_list.html',{'rooms': rooms, 'cinema' : cine})
+
