@@ -15,7 +15,6 @@
                     <th>Classification</th>
                     <th>Gender</th>
                     <th>Duration</th>
-                    <th>Synopsis</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -31,7 +30,6 @@
                     {% endif %}
                     <td>{{movie.gender}}</td>
                     <td>{{movie.duration}}</td>
-                    <td>{{movie.synopsis}}</td>
                     <td><a class="btn btn-primary" href="{% url 'movie_detail' movie.id %}">Detail</a> </td>
                 </tr>
                 {% endfor %}

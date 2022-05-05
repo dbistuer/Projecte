@@ -15,7 +15,7 @@ def Movie_List(request):
     return render(request, 'Movie/List.html', json)
 
 
-def Movie_(request, **kwargs):
+def Detail_Movie(request, **kwargs):
     id = int(kwargs.get('id'))
     movie = Movie.objects.get(id=id)
     json = {'movie': movie}
@@ -37,8 +37,10 @@ def New_Movie(request):
 
 def Movie_Edit(request, id):
     movie = 0
+    json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie}
     try:
         movie = Movie.objects.get(pk=id)
+        json['movie'] = movie
     except Exception as e:
         return render(request, 'errorPage.html')
     if request.method == 'POST':
@@ -46,11 +48,17 @@ def Movie_Edit(request, id):
             movie_edit = get_Movie_from_attr(request)
         except Exception as e:
             return render(request, 'errorPage.html')
-        Movie.objects.update(movie_edit)
-        movie = movie_edit
-    return render(request, 'Movie/new_movie.html',
-                  {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie})
+        json['movie'] = update_movie_by_another(movie,movie_edit)
+        json['mssg'] = 'Your changes have been saved succesfuly.'
+    return render(request, 'Movie/new_movie.html',json)
 
+def Movie_Delete(request,id):
+    movie = Movie.objects.get(pk=id)
+    if movie:
+        movie.delete()
+        return Movie_List(request)
+    else:
+        return render(request, 'errorPage.html')
 
 def get_Movie_from_attr(request):
     try:
@@ -64,3 +72,19 @@ def get_Movie_from_attr(request):
         return e
     return Movie(name=name, gender=gender, classification=classification, duration=duration, image=image,
                  synopsis=synopsis)
+
+def update_movie_by_another(to,from_):
+    if from_.name != to.name and from_.name != '':
+        to.name = from_.name
+    if from_.gender != to.gender and from_.gender != '':
+        to.gender = from_.gender
+    if from_.duration != to.duration and from_.duration != 0:
+        to.duration = from_.duration
+    if from_.synopsis != to.synopsis and from_.synopsis != '':
+        to.name = from_.synopsis
+    if from_.classification != to.classification and from_.classification != '':
+        to.classification = from_.classification
+    if from_.image != to.image and from_.image != '':
+        to.image = from_.image
+    to.save()
+    return to
