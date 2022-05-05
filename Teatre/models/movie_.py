@@ -6,7 +6,6 @@ from Projecte.settings.base import MEDIA_ROOT as media
 
 
 class Movie(Model):
-    image = models.ImageField(upload_to=media + '/movie', null=True)
     name = models.CharField(max_length=50)
     genere = models.CharField(max_length=50)
     duration = models.IntegerField()
