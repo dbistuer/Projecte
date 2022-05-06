@@ -13,6 +13,7 @@ def DNIValidator(value):
     else:
         return value
 
+
 def IBANValidator(value):
     if not iban.is_valid(value):
         raise ValidationError(
@@ -22,8 +23,9 @@ def IBANValidator(value):
     else:
         return value
 
+
 def PhoneValidator(value):
-    if phonenumbers.is_valid_number(phonenumbers.parse(value,"ES")):
+    if phonenumbers.is_valid_number(phonenumbers.parse(value, "ES")):
         return value
     else:
         raise ValidationError(

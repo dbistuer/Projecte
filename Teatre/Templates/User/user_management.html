@@ -1,0 +1,108 @@
+
+{% extends "base.html" %}
+
+
+
+{% block title %}
+User management
+{% endblock %}
+
+{% block content %}
+<h1>User management</h1>
+<div class="row">
+    <div class="col-sm-7 col-md-7 col-lg-7 col-xl-7">
+        <div clas="table-responsive py-2">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>User Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if normal_clients %}
+                    {% for normal in normal_clients %}
+                        {% if user.username != normal.username %}
+                            <tr>
+                                <td>{{normal.first_name}}</td>
+                                <td>{{normal.username}}</td>
+                                <td>{{normal.email}}</td>
+                                <td><form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
+                                    <select name="user_role" id="user_role">
+                                        <option value="normal_client" selected>Normal client</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="employee">Employee</option>
+
+                                    </select> </td>
+                                        <td><button name="username" value={{normal.username}} type="submit" class="btn btn-primary" >Change role</button> </td>
+                                        <td><button name="delete" value={{normal.username}} type="submit" class="btn btn-danger"> Delete user</button> </td>
+                                    </form>
+                            </tr>
+                         
+                            
+
+                               
+
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                {% if staff_clients %}
+                    {% for staff in staff_clients %}
+                        {% if user.username != staff.username %}
+
+                            <tr>
+                                <td>{{staff.first_name}}</td>
+                                <td>{{staff.username}}</td>
+                                <td>{{staff.email}}</td>
+                                <td><form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
+                                    <select name="user_role" id="user_role">
+                                        <option value="employee" selected>Employee</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="normal_client">Normal client</option>
+                                    </select> </td>
+                                        <td><button name="username" value={{staff.username}} type="submit" class="btn btn-primary">Change role</button> </td>
+                                        <td><button name="delete" value={{staff.username}} type="submit" class="btn btn-danger"> Delete user</button> </td>
+                                </form>
+                               
+                                
+                                   
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                {% if admin_clients %}
+                    {% for admin in admin_clients %}
+                        {% if user.username != admin.username %}
+                            <tr>
+                                <td>{{admin.first_name}}</td>
+                                <td>{{admin.username}}</td>
+                                <td>{{admin.email}}</td>
+                                <td><form action="{% url 'user_management' %}" method="post"> {% csrf_token %}
+                                    <select name="user_role" id="user_role">
+                                        <option value="admin" selected>Admin</option>
+                                        <option value="employee">Employee</option>
+                                        <option value="normal_client">Normal client</option>
+                                    </select> </td>
+                                        <td><button name="username" value={{admin.username}} type="submit" class="btn btn-primary" >Change role</button> </td>
+                                        <td><button name="delete" value={{admin.username}} type="submit" class="btn btn-danger" > Delete user</button> </td>
+                            </tr>
+                         </form>
+                           
+                                {% endif %}
+                    {% endfor %}
+
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+

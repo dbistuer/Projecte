@@ -11,6 +11,7 @@
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Image</th>
                     <th>Gender</th>
                     <th>Duration</th>
                     <th>Synopsis</th>
@@ -20,6 +21,7 @@
                 {% for movie in movies %}
                 <tr>
                     <td>{{movie.name}}</td>
+                    <td><img src="{{MEDIA_ROOT}}/{{movie.image}}" alt="{{ movie.name }}"></td>
                     <td>{{movie.genere}}</td>
                     <td>{{movie.duration}}</td>
                     <td>{{movie.descripton}}</td>
@@ -30,4 +32,5 @@
         </div>
     </div>
 </div>
+<h1>{{MEDIA_ROOT}}</h1>
 {% endblock %}
