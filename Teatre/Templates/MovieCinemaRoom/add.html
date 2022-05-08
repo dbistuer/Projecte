@@ -1,24 +1,13 @@
 {% extends "base.html" %}
 
-
 {% block title %}
 Movie Cinema Room
 {% endblock %}
 
 {% block content %}
 
-{{rooms}}<br>
-{{movies}}<br>
-{{cinemas}}<br>
-
-<!--{% for cinema in cinemas %}
-{{ cinema.name }}{{ cinema.adress }}{{ cinema.room_set.values.count }}
-{% endfor %}-->
-
-
-
 <div class="container" style="margin-top: 50px">
-    <h2>Add Movie on Cinema Room's profile</h2>
+    <h2>Add Moviees on Cinema Room's</h2>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -32,7 +21,7 @@ Movie Cinema Room
         {% csrf_token %}
         <div class="form-group">
             <label>Select cinema: </label>
-            <select name="cinema">
+            <select name="cinema" required>
                 <option value="" selected="selected">NOT SELECTED</option>
                 {% for c in cinemas %}
                 <option value="{{c.id}}">
@@ -43,10 +32,10 @@ Movie Cinema Room
         </div>
         <div class="form-group">
             <label>Select room: </label>
-            <select name="room">
+            <select name="room" required>
                 <option value="" selected="selected">NOT SELECTED</option>
                 {% for r in rooms %}
-                <option value="{{r.id}}">
+                <option value="{{r.id}}" class="room-option cinema-id-{{r.Cinema.id}}">
                     {{r.Cinema.name}} - {{r.id}}
                 </option>
                 {% endfor %}
@@ -54,7 +43,7 @@ Movie Cinema Room
         </div>
         <div class="form-group">
             <label>Select movie: </label>
-            <select name="movie">
+            <select name="movie" required>
                 <option value="" selected="selected">NOT SELECTED</option>
                 {% for m in movies %}
                 <option value="{{m.id}}">
@@ -65,7 +54,7 @@ Movie Cinema Room
         </div>
         <div class="form-group">
             <label>Data movie:</label>
-            <input name="date_movie" type="date" />
+            <input required name="date_movie" type="date"/>
         </div>
         <div align="center">
             <button type="submit" class="btn btn-primary" value="confirm_changes">Add</button>
@@ -76,6 +65,7 @@ Movie Cinema Room
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384 JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
 
 {% endblock %}
     
