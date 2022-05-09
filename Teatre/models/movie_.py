@@ -22,6 +22,7 @@ class Ticket(Model):
     Client = models.ForeignKey(Client, on_delete=models.CASCADE)
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    Seat = models.IntegerField()
 
     class Meta:
         unique_together = (("date", "Client", "Movie", "Room"),)
