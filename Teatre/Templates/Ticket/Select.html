@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %} Compra de ticket {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mt-4 mb-5"><strong>Select Movie</strong></h2>
+            <div class="row">
+            {% for movie_cinema_room in datos %}
+                <div class="col col-lg-4 mb-4">
+                    <div class="card">
+                        <div
+                                class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                                data-mdb-ripple-color="light"
+                        >
+                            <img
+                                    src="{{ MEDIA_URL }}{{ "movie.imagen" }}"
+                                    class="w-75" alt="Movie_Picture" width="100"/>
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id_servicio" value="{{ movie_cinema_room.id }}">
+                            <div class="card-body">
+                                <p class="text-reset">
+                                <h5 class="card-title mb-3" style="color: #0283b4">{{ movie_cinema_room.Movie.name }}</h5>
+                                </p>
+                                <div class="text-reset">
+                                    {% if movie_cinema_room.Movie.synopsis %}
+                                        <p class="card-text text-secondary">{{ movie_cinema_room.Movie.synopsis }}</p>
+                                    {% endif %}
+                                </div>
+                                <h6 class="mb-3">Duration: {{ movie_cinema_room.Movie.duration }}</h6>
+                                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sessions</a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{% url 'buy_ticket' movie_cinema_room.id%}">{{ movie_cinema_room.date_movie }}</a></li>
+                                </ul>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div>
+    </div>
+    <div>
+            <a class="btn btn-danger" href="{% url 'home' %}">Back to main</a>
+            <a class="btn btn-success" href="{% url 'list_tickets' %}">Watch my tickets</a>
+        </div>
+
+</div>
+
+
+
+
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Model
 from .account import Client
-from .cinema_ import Room
+from .cinema_ import Room,Cinema
 from Projecte.settings.base import MEDIA_ROOT as media
 
 
@@ -18,10 +18,11 @@ class Movie(Model):
 
 class Ticket(Model):
     date = models.DateTimeField(auto_now=True)
-    price = models.FloatField(max_length=4)
+    price = models.FloatField(max_length=4,default=8.5)
     Client = models.ForeignKey(Client, on_delete=models.CASCADE)
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    Cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
     Seat = models.IntegerField()
 
     class Meta:

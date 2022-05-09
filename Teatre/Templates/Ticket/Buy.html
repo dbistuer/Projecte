@@ -1,59 +1,33 @@
 {% extends "base.html" %}
 
-{% block title %} Compra de ticket {% endblock %}
+{% block title %} Tickets Buy {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mt-4 mb-5"><strong>Seleccione Pelicula</strong></h2>
-            <div class="row">
-            {% for movie in movies %}
-                <div class="col col-lg-4 mb-4">
-                    <div class="card">
-                        <div
-                                class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
-                                data-mdb-ripple-color="light"
-                        >
-                            <img
-                                    src="{{ MEDIA_URL }}{{ "movie.imagen" }}"
-                                    class="w-75" alt="Movie_Picture" width="100"/>
-                        </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="id_servicio" value="{{ movie.id }}">
-                            <div class="card-body">
-                                <p class="text-reset">
-                                <h5 class="card-title mb-3" style="color: #0283b4">{{ movie.name }}</h5>
-                                </p>
-                                <div class="text-reset">
-                                    {% if movie.synopsis %}
-                                        <p class="card-text text-secondary">{{ movie.synopsis }}</p>
-                                    {% endif %}
-                                </div>
-                                <h6 class="mb-3">Duration: {{ movie.duration }}</h6>
-                                <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Desplegar Horas</a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Hora</a></li>
-                                </ul>
-                            </div>
-                        </form>
-
-                    </div>
-                </div>
-            {% endfor %}
+<div class = row>
+<h3>Ticket Information</h3>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <h4 class ="text-black-50">Movie:
+            {{ movie_cinema_room.Movie.name }}</h4>
+            <a class ="text-black">Synopsis:
+            {{ movie_cinema_room.Movie.synopsis }}</a>
+            <a class ="text-black">Cinema:
+            {{ movie_cinema_room.Cinema.name }}</a>
+            <a class ="text-black">Room:
+            {{ movie_cinema_room.Room.number }}</a>
+            <a class ="text-black">Seat:
+            {{ seat }}</a>
+            <a class ="card-text text-success">Price:
+            8.5 €</a>
         </div>
-    </div>
-</div>
-<div>
-    </div>
-    <div>
-            <a class="btn btn-danger" href="{% url 'home' %}">Volver al incio</a>
+        <div class="form-group">
+            <form action="{% url 'buy_ticket' movie_cinema_room.id %}" method="POST">
+                {% csrf_token %}
+                <button type = "sumbit" class="btn btn-success btn-block">Buy</button>
+                <a class="btn btn-danger " href="{% url 'select_tickets' %}">Atras</a>
+            </form>
         </div>
 
+    </div>
 </div>
-
-
-
-
 {% endblock %}
