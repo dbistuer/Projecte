@@ -4,12 +4,12 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h1><b>Cinema:</b> {{ cinema.name }}</h1>
+            <h1><b>Cinema:</b> {{ room.Cinema.name }}</h1>
             <h4 class="border-bottom"> </h4>
-            <h4><b>Direcció:</b> {{ cinema.adress }}</h4>        </div>
+            <h4><b>Direcció:</b> {{ room.Cinema.adress }}</h4>        </div>
     </div>
     <br/>
-    <form action="{% url 'modify_room' 2 %}" method="POST">
+    <form action="{% url 'modify_room' cinema_id room_id %}" method="POST">
     {% csrf_token %}
         <div class="shadow-sm">
         <table class="table table-striped table-hover col-12">
@@ -50,7 +50,7 @@
         </div>
     </form>
     <div>
-            <a class="btn btn-danger " href="{% url 'room_list' 1 %}">Atras</a>
+            <a class="btn btn-danger " href="{% url 'room_list' cinema_id %}">Atras</a>
         </div>
 </div>
 {% endblock %}

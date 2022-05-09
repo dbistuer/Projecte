@@ -32,21 +32,23 @@ def room_list(request, id_cinema):
         # Falta poner la pantalla de errores como dijo el profesor virgili para que no puedan mapear la bbdd (try, except)
         cine = Cinema.objects.get(id=id_cinema)
         rooms = Room.objects.filter(Cinema_id=cine.id)
-        return render(request, 'Cinema/room_list.html', {'rooms': rooms, 'cinema': cine})
+        return render(request, 'Cinema/room_list.html', {'rooms': rooms, 'cinema': cine, 'cinema_id': id_cinema})
 
 
-def modify_room(request, id_room):
+def modify_room(request,id_cinema ,id_room):
     if request.method == 'GET':
-        rooms = Room.objects.filter(id=id_room)
+
+        rooms = Room.objects.filter(id=id_room,Cinema_id=id_cinema)
+
         # falta añadir el id del cineam para saber donde hago el return
-        return render(request, 'Cinema/modify_room.html', {'rooms': rooms})
+        return render(request, 'Cinema/modify_room.html', {'rooms': rooms, 'cinema_id': id_cinema, 'room_id': id_room, 'room': rooms[0]})
     if request.method == 'POST':
         rooms = Room.objects.filter(id=id_room)
         room = Room.objects.get(id=id_room)
         if request.POST['Valor'] == 'modify':
             room.capacity = str(request.POST['capacity'])
             room.save()
-            return render(request, 'Cinema/modify_room.html', {'rooms': rooms})
+            return render(request, 'Cinema/modify_room.html', {'rooms': rooms, 'cinema_id': id_cinema, 'room_id': id_room})
         if request.POST['Valor']== 'eliminar':
             room.delete()
             return render(request,'Cinema/List.html')
