@@ -23,6 +23,7 @@
                         <td>{{ cinema.adress }}</td>
                         <td>{{ cinema.room_set.values.count }}</td>
                         <td>{{ cinema.description }}</td>
+                        <td><a class="btn btn-primary" href="{% url 'cinema_detail' cinema.id %}">Details</a> </td>
                     </tr>
                 {% endfor %}
                 </tbody>
