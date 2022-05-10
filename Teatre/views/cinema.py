@@ -1,3 +1,4 @@
+from django.shortcuts import render, redirect
 from Teatre.models import *
 
 def Cinema_List(request):
