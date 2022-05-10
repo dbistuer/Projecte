@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from Teatre.models import *
 
 def Cinema_List(request):
@@ -29,7 +28,7 @@ def New_Cinema(request):
 def Cinema_Edit(request, id):
     cinema = 0
     try:
-        cinema = cinema.objects.get(pk=id)
+        cinema = Cinema.objects.get(pk=id)
     except Exception as e:
         return render(request, 'errorPage.html')
     if request.method == 'POST':
@@ -37,16 +36,29 @@ def Cinema_Edit(request, id):
             cinema_edit = get_Cinema_from_attr(request)
         except Exception as e:
             return render(request, 'errorPage.html')
+        Cinema.objects.filter(id__exact=id).update(name=request.POST.get('name', False))
+        Cinema.objects.filter(id__exact=id).update(adress=request.POST.get('adress', False))
+        Cinema.objects.filter(id__exact=id).update(description=request.POST.get('description', False))
+        return redirect('/Teatre/Cinemas/List')
+    json = {'cinema': cinema}
+    return render(request, 'Cinemas/new_cinema.html', json)
+    
+def Cinema_Delete(request, id):
+    cinema = 0
+    try:
+        cinema = Cinema.objects.get(pk=id)
+    except Exception as e:
+        return render(request, 'errorPage.html')
         Cinema.objects.update(cinema_edit)
         cinema = cinema_edit
-    return render(request, 'Cinemas/new_cinema.html',
-                  {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie})
+    cinema.delete()
+    return redirect('/Teatre/Cinemas/List')
 
 
 def get_Cinema_from_attr(request):
     try:
         name = request.POST['name']
-        adress = request.POST['address']
+        adress = request.POST['adress']
         description = request.POST['description']
     except Exception as e:
         return e
