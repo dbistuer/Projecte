@@ -51,4 +51,6 @@ def modify_room(request,id_cinema ,id_room):
             return render(request, 'Cinema/modify_room.html', {'rooms': rooms, 'cinema_id': id_cinema, 'room_id': id_room})
         if request.POST['Valor']== 'eliminar':
             room.delete()
-            return render(request,'Cinema/List.html')
+            cine = Cinema.objects.get(id=id_cinema)
+            rooms = Room.objects.filter(Cinema_id=cine.id)
+            return render(request, 'Cinema/room_list.html', {'rooms': rooms, 'cinema': cine, 'cinema_id': id_cinema})
