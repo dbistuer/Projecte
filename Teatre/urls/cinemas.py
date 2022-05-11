@@ -3,4 +3,8 @@ from Teatre import views
 
 urlpatterns_cinemas = [
     path('Cinema/List', views.CinemaList, name='list_cinemas'),
+    path('Cinema/new_room', views.Create_sala, name='create_room'),
+    path('Cinema/room_list/<int:id_cinema>', views.room_list, name='room_list'),
+    path('Cinema/modify_room/<int:id_cinema>/<int:id_room>', views.modify_room, name='modify_room'),
+
 ]

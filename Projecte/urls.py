@@ -27,5 +27,8 @@ urlpatterns = [
     path('SignIn/', SignIn, name='register'),
     path('profile/', profile, name='profile'),
     path('profile/edit/', edit_profile, name='edit_profile'),
+
+    path('accounts/delete/', delete_user, name='delete_user'),
+    path('usermanage/', user_management, name='user_management'),
 ]
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

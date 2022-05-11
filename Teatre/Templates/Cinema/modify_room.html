@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Modificar sala{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1><b>Cinema:</b> {{ room.Cinema.name }}</h1>
+            <h4 class="border-bottom"> </h4>
+            <h4><b>Direcció:</b> {{ room.Cinema.adress }}</h4>        </div>
+    </div>
+    <br/>
+    <form action="{% url 'modify_room' cinema_id room_id %}" method="POST">
+    {% csrf_token %}
+        <div class="shadow-sm">
+        <table class="table table-striped table-hover col-12">
+            <thead>
+                <tr>
+                    <th hidden>idRoom</th>
+                    <th>Room number</th>
+                    <th>Capacity</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                    <th scope="row" hidden><input type="number" id="id_room{{room.id}}" name="id_room{{room.id}}" value="{{room.id}}" readonly required/></th>
+                    <td>{{room.number}}</td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" id="capacity" name="capacity" class="form-control" placeholder="Introduzca la nueva capacidad" minlength="1" maxlength="500"/>
+                        </div>
+                    </td>
+
+                        <td>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block" type="submit" href=# id="Valor" value="modify" name="Valor" >Modificar</button>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-block" type="submit" href=# id="Valor" value="eliminar" name="Valor" >Borrar</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+            <th><button class="btn hidden "></button></th>
+        </div>
+    </form>
+    <div>
+            <a class="btn btn-danger " href="{% url 'room_list' cinema_id %}">Atras</a>
+        </div>
+</div>
+{% endblock %}

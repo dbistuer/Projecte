@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %} Lista de salas {% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    <h1 class="">Lista de salas </h1>
+    <div class="row">
+        <div class="col-12">
+            <h4><b></b> </h4>
+            <h1><b>Cinema:</b> {{ cinema.name }}</h1>
+            <h4 class="border-bottom"> </h4>
+            <h4><b>Direcció:</b> {{ cinema.adress }}</h4>
+        </div>
+    </div>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+    </form>
+
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="table-responsive py-2 ">
+            <table class="table table-striped text-truncate">
+                <thead>
+                <tr>
+
+                    {% if user.is_servicios_adicionales %}
+                        <th colspan="2">Cliente</th>
+                    {% endif %}
+                    <th>Room number</th>
+                    <th>Capacity</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for room in  rooms%}
+
+                    <th scope="row" hidden><input type="number" id="id_room{{room.id}}" name="id_room{{room.id}}" value="{{room.id}}" readonly required/></th>
+                    <td>{{room.number}}</td>
+                    <td>{{room.capacity}}</td>
+                    <td>
+
+                                <a class="btn table-hover btn-info" href="{% url 'modify_room' cinema_id room.id %}">Detalles</a>
+
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+            <a class="btn btn-danger " href="{% url 'list_cinemas' %}">Atras</a>
+            <a class="btn btn-info " href="{% url 'create_room' %}">Nueva sala</a>
+
+        </div>
+</div>
+
+{% endblock %}
