@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from Teatre.models import *
 from Projecte.settings.base import MEDIA_ROOT, API_MOVIEDB_KEY, API_MOVIEDB_URL
+from django.contrib.auth.decorators import login_required, permission_required
 # TODO: DELETE UPPER LINE
 
 def MovieDetail(request):
@@ -24,7 +25,10 @@ def Detail_Movie(request, **kwargs):
     return render(request, 'Movie/movie.html', json)
 
 
+@login_required
 def New_Movie(request):
+    if user.is_active:
+        return render(request, 'errorPage.html')
     json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, }
     if request.method == 'POST':
         try:
@@ -35,8 +39,10 @@ def New_Movie(request):
         json['mssg'] = 'Your movie has been added succesfuly.'
     return render(request, 'Movie/new_movie.html', json)
 
-
+@login_required
 def Movie_Edit(request, id):
+    if user.is_active:
+        return render(request, 'errorPage.html')
     movie = 0
     json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie}
     try:
@@ -53,13 +59,17 @@ def Movie_Edit(request, id):
         json['mssg'] = 'Your changes have been saved succesfuly.'
     return render(request, 'Movie/new_movie.html',json)
 
+@login_required
 def Movie_Delete(request,id):
+    if user.is_active:
+        return render(request, 'errorPage.html')
     movie = Movie.objects.get(pk=id)
     if movie:
         movie.delete()
         return Movie_List(request)
     else:
         return render(request, 'errorPage.html')
+
 
 def get_Movie_from_attr(request):
     try:
