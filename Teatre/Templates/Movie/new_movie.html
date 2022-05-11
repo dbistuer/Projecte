@@ -10,12 +10,17 @@
  {%  url 'new_movie' as new_movie %}
      <h1>{% if request.path == new_movie %}Add Movie {% else %}Edit Movie{% endif %}</h1>
      <hr/>
+    {% if mssg %}
+        <div class="alert alert-success" role="alert">
+            {{ mssg }}
+        </div>
+    {% endif %}
     <form method="POST">
       {% csrf_token %}
       <div class="form-group">
         <label for="frmName">Name</label>
         <input type="text" class="form-control" id="frmName" name="name"
-            {% if request.path != new %}
+            {% if request.path != new_movie %}
                value="{{ movie.name }}"
             {% endif %}
             required>
@@ -32,7 +37,7 @@
         <div class="form-group col-12 col-sm-12 col-md-2 col-lg-2 col-xl-1">
             <label for="frmDuration">Duration</label>
             <input type="number" class="form-control" id="frmDuration" name="duration"
-                {% if request.path != new %}
+                {% if request.path != new_movie %}
                     value="{{ movie.duration }}"
                 {% else %}
                     value="120"
@@ -42,20 +47,22 @@
         <div class="form-group col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
             <label for="frmImage">Cover</label>
             <input type="file" class="form-control" id="frmImage" name="image" accept=".png, .jpg"
-                {% if request.path == new %}
+                {% if request.path == new_movie %}
                      required
                 {% endif %}
                >
-            <img {% if movie.image %} src="{{ movie.image.url }}" {% else %} alt="You have no image." {% endif %}>
+            {% if request.path != new_movie %}
+                     <img {% if movie.image %} src="{{ movie.image.url }}" {% else %} alt="You have no image." {% endif %}>
+            {% endif %}
         <!--Load image and not required for edit-->
         </div>
       </div>
       <div class="form-group">
         <label for="frmDescription">Synopsis</label>
-        <textarea class="form-control" id="frmDescription" name="synopsis" rows="3" required>{% if request.path != new %}{{ movie.synopsis }}{% endif %}</textarea>
+        <textarea class="form-control" id="frmDescription" name="synopsis" rows="3" required>{% if request.path != new_movie %}{{ movie.synopsis }}{% endif %}</textarea>
       </div>
       <div class="input-group">
-        <button class="btn btn-success" type="submit">{% if request.path != new %}Edit{% else %}Add{% endif %}</button>
+        <button class="btn btn-success" type="submit">{% if request.path != new_movie %}Edit{% else %}Add{% endif %}</button>
       </div>
     </form>
  </div>
@@ -100,15 +107,5 @@ var selected_classification = "{{ movie.classification }}";
             });
         }
     });
-{% if mssg %}
-    $(document).ready(function()
-    {
-        setTimeout(function()
-        {
-            alert('{{ mssg }}');
-        },
-        5000);
-    });
-{% endif %}
 </script>
 {% endblock %}

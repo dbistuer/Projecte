@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from Teatre.views import *
+from Projecte.settings.base import MEDIA_ROOT, MEDIA_URL
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', home, name='home'),
     path('Teatre/', include('Teatre.urls')),
@@ -25,3 +28,4 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('profile/edit/', edit_profile, name='edit_profile'),
 ]
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

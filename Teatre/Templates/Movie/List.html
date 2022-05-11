@@ -22,7 +22,7 @@
                 {% for movie in movies %}
                 <tr>
                     <td>{{movie.name}}</td>
-                    <td><img src="{{MEDIA_ROOT}}/{{movie.image}}" alt="{{ movie.name }}"></td>
+                    <td><img src="{{movie.image.url}}" alt="{{ movie.name }}"></td>
                     {% if movie.classification == 'X' %}
                         <td>+18</td>
                     {% else %}
@@ -38,5 +38,5 @@
         </div>
     </div>
 </div>
-<h1>{{MEDIA_ROOT}}</h1>
+<h1 hidden>{{MEDIA_ROOT}}</h1>
 {% endblock %}

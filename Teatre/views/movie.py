@@ -25,14 +25,15 @@ def Detail_Movie(request, **kwargs):
 
 
 def New_Movie(request):
+    json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, }
     if request.method == 'POST':
         try:
             movie = get_Movie_from_attr(request)
         except Exception as e:
             return render(request, 'errorPage.html')
         movie.save()
-        return Movie_List(request)
-    return render(request, 'Movie/new_movie.html', {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, })
+        json['mssg'] = 'Your movie has been added succesfuly.'
+    return render(request, 'Movie/new_movie.html', json)
 
 
 def Movie_Edit(request, id):
