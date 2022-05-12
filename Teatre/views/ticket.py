@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from ..models import Ticket, Client, MovieCinemaRoom
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 import random
 
-
+@login_required
 def ticket_select(request,**kwargs):
     if request.user.is_authenticated:
         datos = MovieCinemaRoom.objects.all()
@@ -12,7 +13,7 @@ def ticket_select(request,**kwargs):
     else:
         return render(request,'Error/error_generico.html',{'error': {'title':'User not logged',
                                                                      'message': 'You need to log in to buy tickets'}})
-
+@login_required
 def ticket_buy(request,id_assignation):
     seats = list()
     client = Client.objects.get(user_id=request.user.id)
@@ -49,11 +50,12 @@ def ticket_buy(request,id_assignation):
         total = 8.50 * len(seats)
         return render(request, 'Ticket/Buy.html', {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
 
-
+@login_required
 def ticket_list(request):
     tikets = Ticket.objects.filter(Client_id=request.user.id)
     return render(request,'Ticket/List.html',{'tickets':tikets})
 
+@login_required
 def ticket_detail(request,id_ticket):
     ticket = Ticket.objects.get(pk=id_ticket)
     return render(request,'Ticket/Detail.html',{'ticket':ticket})
