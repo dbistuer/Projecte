@@ -3,4 +3,5 @@ from Teatre.models import *
 
 
 def home(request):
-    return render(request, 'home.html')
+    movie = Movie.objects.get(name='Hola')
+    return render(request, 'home.html', {'movie': movie})

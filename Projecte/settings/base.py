@@ -115,8 +115,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = '/accounts/login'
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 API_MOVIEDB_KEY = "d9ddc0a239ddbbecb2c2cd5a5c421b4d"
 API_MOVIEDB_URL = "https://api.themoviedb.org/3/"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
