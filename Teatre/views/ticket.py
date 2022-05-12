@@ -38,9 +38,11 @@ def ticket_buy(request,id_assignation):
                           {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
 
         except:
+            for num_ticket in range(int(request.POST['buy'])-1):
+                seat = seat+1
+                seats.append(seat)
             total = 8.5 * len(seats)
-            Ticket.objects.create(Movie=movie,Cinema=cinema,Room=room,
-                                  date=movie_cinema_room.date_movie, Client=client)
+            Ticket.objects.create(price=total,Movie=movie,Cinema=cinema,Room=room,date=movie_cinema_room.date_movie, Client=client,Seats=seats)
             tickets_obj = Ticket.objects.all()
             return HttpResponseRedirect(reverse('list_tickets'))
     else:
@@ -51,3 +53,7 @@ def ticket_buy(request,id_assignation):
 def ticket_list(request):
     tikets = Ticket.objects.filter(Client_id=request.user.id)
     return render(request,'Ticket/List.html',{'tickets':tikets})
+
+def ticket_detail(request,id_ticket):
+    ticket = Ticket.objects.get(pk=id_ticket)
+    return render(request,'Ticket/Detail.html',{'ticket':ticket})

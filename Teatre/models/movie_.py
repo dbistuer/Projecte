@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Model
 from .account import Client
 from .cinema_ import Room,Cinema
-from django.contrib.postgres.fields import ArrayField
+from django.core.validators import int_list_validator
 from Projecte.settings.base import MEDIA_ROOT as media
 
 
@@ -24,7 +24,7 @@ class Ticket(Model):
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
     Cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
-    Seats = ArrayField(models.IntegerField(),null=True)
+    Seats = models.CharField(validators=[int_list_validator],max_length=100)
 
 
     class Meta:
