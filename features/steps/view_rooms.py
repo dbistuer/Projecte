@@ -9,7 +9,6 @@ def step_impl(context):
         cinema = Cinema(adress=row['adress'],name=row['name'])
         cinema.save()
         room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=row['cinema'])
-        #Cinema.objects.get(Cinema=cinema)
         room.save()
 
 @when(u'I visit the cinema list')

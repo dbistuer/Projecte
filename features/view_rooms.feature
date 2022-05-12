@@ -1,4 +1,3 @@
-# Created by opolo at 10/05/2022
 Feature: View rooms
   In order to see the rooms of a cinema
   as an employee
@@ -14,4 +13,4 @@ Feature: View rooms
 
     Then I look up the rooms in the cinema
       |   number    |   capacity        |
-      |   1        |   100            |
+      |   1         |   100             |
