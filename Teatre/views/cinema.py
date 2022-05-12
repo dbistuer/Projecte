@@ -3,7 +3,7 @@ from Teatre.models import *
 
 def Cinema_List(request):
     cinemas = Cinema.objects.all()
-    json = {'cinemas': cinemas}
+    json = {'cinemas': cinemas, 'request': request}
     return render(request, 'Cinemas/List.html', json)
 
 def Cinema_(request, **kwargs):
