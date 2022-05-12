@@ -8,7 +8,7 @@ def step_impl(context):
 
         cinema = Cinema(adress=row['adress'],name=row['name'])
         cinema.save()
-        room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=row['cinema'])
+        room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=cinema.id)
         room.save()
 
 @when(u'I visit the cinema list')
@@ -18,7 +18,9 @@ def step_impl(context):
 
 @then(u'I look up the rooms in the cinema')
 def step_impl(context):
-    assert context.browser.url == context.get_url('room_list',1)
+    from Teatre.models.cinema_ import Cinema
+    cinema = Cinema.objects.get(name='Llauren')
+    assert context.browser.url == context.get_url('room_list',cinema.id)
 
     for row in context.table:
         for heading in row.headings:

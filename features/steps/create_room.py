@@ -30,4 +30,4 @@ def step_impl(context):
 
     assert Room.objects.filter(capacity=100).exists()
     assert Room.objects.filter(id=1).exists()
-    assert not Room.objects.filter(number=2).exists()
+    assert not Room.objects.filter(number=500).exists()
