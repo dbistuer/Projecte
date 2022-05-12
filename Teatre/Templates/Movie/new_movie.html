@@ -1,21 +1,26 @@
 {% extends "base.html" %}
-{% block title %} New Movie {% endblock %}
+{% block title %}{%  url 'new_movie' as new_movie %}{% if request.path == new_movie %}New Movie {% else %}Edit Movie{% endif %}{% endblock %}
 {% block css %}
     .form-group{
         margin-bottom: 10px
     }
 {% endblock %}
 {% block body %}
-{%  url 'new_movie' as new %}
- <div class="container" onload="set_choices()">
-     <h1>Add Movie</h1>
+ <div class="container">
+ {%  url 'new_movie' as new_movie %}
+     <h1>{% if request.path == new_movie %}Add Movie {% else %}Edit Movie{% endif %}</h1>
      <hr/>
+    {% if mssg %}
+        <div class="alert alert-success" role="alert">
+            {{ mssg }}
+        </div>
+    {% endif %}
     <form method="POST">
       {% csrf_token %}
       <div class="form-group">
         <label for="frmName">Name</label>
         <input type="text" class="form-control" id="frmName" name="name"
-            {% if request.path != new %}
+            {% if request.path != new_movie %}
                value="{{ movie.name }}"
             {% endif %}
             required>
@@ -32,7 +37,7 @@
         <div class="form-group col-12 col-sm-12 col-md-2 col-lg-2 col-xl-1">
             <label for="frmDuration">Duration</label>
             <input type="number" class="form-control" id="frmDuration" name="duration"
-                {% if request.path != new %}
+                {% if request.path != new_movie %}
                     value="{{ movie.duration }}"
                 {% else %}
                     value="120"
@@ -42,22 +47,28 @@
         <div class="form-group col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6">
             <label for="frmImage">Cover</label>
             <input type="file" class="form-control" id="frmImage" name="image" accept=".png, .jpg"
-                {% if request.path != new %}
-                    value="{{ movie.image.url }}"
+                {% if request.path == new_movie %}
+                     required
                 {% endif %}
-                required>
+               >
+            {% if request.path != new_movie %}
+                     <img {% if movie.image %} src="{{ movie.image.url }}" {% else %} alt="You have no image." {% endif %}>
+            {% endif %}
+        <!--Load image and not required for edit-->
         </div>
       </div>
       <div class="form-group">
         <label for="frmDescription">Synopsis</label>
-        <textarea class="form-control" id="frmDescription" name="synopsis" rows="3" required>{% if request.path != new %}{{ movie.synopsis }}{% endif %}</textarea>
+        <textarea class="form-control" id="frmDescription" name="synopsis" rows="3" required>{% if request.path != new_movie %}{{ movie.synopsis }}{% endif %}</textarea>
       </div>
       <div class="input-group">
-        <button class="btn btn-success" type="submit">Add</button>
+        <button class="btn btn-success" type="submit">{% if request.path != new_movie %}Edit{% else %}Add{% endif %}</button>
       </div>
     </form>
  </div>
 <script>
+var selected_gender = "{{ movie.gender }}";
+var selected_classification = "{{ movie.classification }}";
 //GENRES
     $.ajax({
         url: "{{ api_url }}" + "genre/movie/list",
@@ -68,7 +79,8 @@
             var choice = $("#frmGender");
             result.genres.forEach(gender => choice.append($('<option>', {
                 value: gender.name,
-                text: gender.name
+                text: gender.name,
+                selected: (selected_gender == gender.name)
             })));
         }
     });
@@ -81,35 +93,19 @@
         success: function (result) {
             var choice = $("#frmClassification");
             var certs = result.certifications.ES
-                certs = certs.sort(function (e1, e2) {
-                                      return (e1.order - e2.order);
-                                    }).reverse();
-            certs.forEach(classification => choice.append($('<option>', {
-                value: classification.certification,
-                text: classification.meaning,
-                title: classification.meaning
-            })));
+            certs = certs.sort(function (e1, e2) {
+                                  return (e1.order - e2.order);
+                                }).reverse();
+
+            certs.forEach(classification => {
+                choice.append($('<option>', {
+                        value: classification.certification,
+                        text: classification.meaning,
+                        title: classification.meaning,
+                        selected: (selected_classification == classification.certification)
+                }))
+            });
         }
     });
-//set values
-    $(document).load(function () {
-         set_choices();
-    });
-    function set_choice(gender,name){
-        var choice = document.getElementsByName(name)
-        choice.forEach(function(opti) {if(opti.id == gender){
-            opti.attributes.setNamedItem('selected');
-        }});
-    }
-    function set_choices(){
-        if("{{ movie.gender }}" === "" && "{{ movie.classification }}" === ""){
-
-        }else{
-            set_choice("{{ movie.gender }}",'gender');
-            set_choice("{{ movie.classification }}",'classification')
-        }
-
-    }
-
 </script>
 {% endblock %}

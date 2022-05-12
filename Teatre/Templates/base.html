@@ -18,6 +18,10 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
+        {% url 'list_cinemas' as list_cinemas %}
+        {% url 'list_movies' as list_movies %}
+        {% url 'list_tickets' as list_tickets %}
+          {% url 'new_movie' as new_movie %}
           {% if not user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
@@ -26,9 +30,6 @@
               <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
           {% endif %}
-        {% url 'list_cinemas' as list_cinemas %}
-        {% url 'list_movies' as list_movies %}
-        {% url 'list_tickets' as list_tickets %}
         <li class="nav-item dropdown">
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
@@ -46,6 +47,19 @@
           </ul>
         </li>
       <a class="nav-link active" aria-current="page" href="{% url 'select_tickets' %}">Buy Ticket</a>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+          {%  if user.is_staff or user.is_superuser %}
+            <li class="nav-item">
+              {% if request.path == new_movie %}
+                  <p class="nav-link active" style="margin-bottom: 0px">Add movie</p>
+              {% else %}
+                  <a class="nav-link" aria-current="page" href="{% url 'new_movie' %}">Add movie</a>
+              {% endif %}
+      {% endif %}
+        </li>
+      {% endif %}
       </ul>
       <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
@@ -81,26 +95,7 @@
                 <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
               {% endif %}
 
-              {% endif %}
-        </ul>
-          </li>
-          {% if not user.is_authenticated %}
-            <li class="nav-item">
-                {% url 'login' as login_url %}
-                {% if request.path == login_url %}
-                    <p class="nav-link active" style="margin-bottom: 0px">Login</p>
-                {% else %}
-                    <a class="nav-link" href="{{login_url}}">Login</a>
-                {% endif %}
-            </li>
-          {% else %}
-            <li class="nav-item dropdown">
-              {% url 'edit_profile' as edit_profile_url %}
-              <a
-              {% if request.path == edit_profile_url %}
-                class="nav-link dropdown-toggle active"
-              {% else %}
-                class="nav-link dropdown-toggle"
+>>>>>>>>> Temporary merge branch 2
               {% endif %}
               href="#" id="DropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

@@ -1,8 +1,7 @@
 from django.db import models
 from django.db.models import Model
 from .account import Client
-from .cinema_ import Room,Cinema
-from django.core.validators import int_list_validator
+from .cinema_ import Room
 from Projecte.settings.base import MEDIA_ROOT as media
 
 
