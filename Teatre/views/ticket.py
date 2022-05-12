@@ -14,6 +14,7 @@ def ticket_select(request,**kwargs):
                                                                      'message': 'You need to log in to buy tickets'}})
 
 def ticket_buy(request,id_assignation):
+    seats = list()
     client = Client.objects.get(user_id=request.user.id)
     movie_cinema_room = MovieCinemaRoom.objects.get(pk=id_assignation)
     room = movie_cinema_room.Room
@@ -22,14 +23,29 @@ def ticket_buy(request,id_assignation):
     seats_busy = list()
     for tickets in Ticket.objects.all():
         if tickets.Room == room:
-            seats_busy.append(tickets.Seat)
+            for room_seat in tickets.Seats:
+                seats_busy.append(room_seat)
     seat = random.randint(0, room.capacity)
+    seats.append(seat)
     if request.method == 'POST':
-        Ticket.objects.create(date=movie_cinema_room.date_movie, Seat=seat, Client=client, Movie=movie,Cinema=cinema,Room=room )
-        tickets_obj = Ticket.objects.all()
-        return HttpResponseRedirect(reverse('list_tickets'))
+        try:
+            request.POST['save']
+            for num_ticket in range(int(request.POST['num'])-1):
+                seat = seat+1
+                seats.append(seat)
+            total = 8.5*len(seats)
+            return render(request, 'Ticket/Buy.html',
+                          {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
+
+        except:
+            total = 8.5 * len(seats)
+            Ticket.objects.create(Movie=movie,Cinema=cinema,Room=room,
+                                  date=movie_cinema_room.date_movie, Client=client)
+            tickets_obj = Ticket.objects.all()
+            return HttpResponseRedirect(reverse('list_tickets'))
     else:
-        return render(request, 'Ticket/Buy.html', {'movie_cinema_room': movie_cinema_room, 'seat': seat})
+        total = 8.50 * len(seats)
+        return render(request, 'Ticket/Buy.html', {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
 
 
 def ticket_list(request):

@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Model
 from .account import Client
 from .cinema_ import Room,Cinema
+from django.contrib.postgres.fields import ArrayField
 from Projecte.settings.base import MEDIA_ROOT as media
 
 
@@ -23,7 +24,8 @@ class Ticket(Model):
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
     Cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
-    Seat = models.IntegerField()
+    Seats = ArrayField(models.IntegerField(),null=True)
+
 
     class Meta:
         unique_together = (("date", "Client", "Movie", "Room"),)
