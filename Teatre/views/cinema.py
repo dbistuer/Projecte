@@ -9,13 +9,16 @@ def Cinema_List(request):
 def Cinema_(request, **kwargs):
     id = int(kwargs.get('id'))
     cinema = Cinema.objects.get(id=id)
-    json = {'cinema': cinema}
+    json = {'cinema': cinema, 'request': request}
     if request.method == 'POST':
         type = kwargs.get('type')
     return render(request, 'Cinemas/cinema.html', json)
 
 
 def New_Cinema(request):
+    if not request.user.is_staff:
+        return redirect('/Teatre/Cinemas/List')
+    
     if request.method == 'POST':
         try:
             cinema = get_Cinema_from_attr(request)
@@ -26,7 +29,10 @@ def New_Cinema(request):
     return render(request, 'Cinemas/new_cinema.html')
 
 
-def Cinema_Edit(request, id):
+def Cinema_Edit(request, id):    
+    if not request.user.is_staff:
+        return redirect('/Teatre/Cinemas/List')
+    
     cinema = 0
     try:
         cinema = Cinema.objects.get(pk=id)
@@ -45,14 +51,16 @@ def Cinema_Edit(request, id):
     return render(request, 'Cinemas/new_cinema.html', json)
     
 def Cinema_Delete(request, id):
-    cinema = 0
-    try:
-        cinema = Cinema.objects.get(pk=id)
-    except Exception as e:
-        return render(request, 'errorPage.html')
-        Cinema.objects.update(cinema_edit)
-        cinema = cinema_edit
-    cinema.delete()
+    if request.user.is_staff:
+        cinema = 0
+        try:
+            cinema = Cinema.objects.get(pk=id)
+        except Exception as e:
+            return render(request, 'errorPage.html')
+            Cinema.objects.update(cinema_edit)
+            cinema = cinema_edit
+        cinema.delete()
+     
     return redirect('/Teatre/Cinemas/List')
 
 
