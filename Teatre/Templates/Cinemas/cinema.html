@@ -14,10 +14,12 @@
                 </div>
             <hr/>
             <p class="card-text">{{ cinema.description}}</p>
+            {% if request.user.is_staff %}
             <div class="card-footer text-muted d-flex">
                 <a href="{% url 'cinema_delete' cinema.id %}" class="btn btn-danger">Delete</a>
                 <a href="{% url 'cinema_edit' cinema.id %}" class="ms-auto btn btn-warning">Edit</a>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
