@@ -44,6 +44,7 @@ def ticket_buy(request,id_assignation):
                           {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
 
         except:
+            seats.clear()
             string_seat = request.POST['buy'].strip('[]')
             int_list = list(map(int,string_seat.split(',')))
             for seat in int_list:
