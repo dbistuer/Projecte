@@ -34,7 +34,9 @@
                                 <h6 class="mb-3">Duration: {{ movie_cinema_room.Movie.duration }}</h6>
                                 <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sessions</a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" href="{% url 'buy_ticket' movie_cinema_room.id%}">{{ movie_cinema_room.date_movie }}</a></li>
+                                    <li>
+                                        <a value='test_click' class="dropdown-item" href="{% url 'buy_ticket' movie_cinema_room.id%}">{{ movie_cinema_room.date_movie }}</a>
+                                    </li>
                                 </ul>
                             </div>
                         </form>
