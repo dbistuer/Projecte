@@ -35,7 +35,8 @@
         <div class="form-group">
             <form action="{% url 'buy_ticket' movie_cinema_room.id %}" method="POST">
                 {% csrf_token %}
-                <button type = "sumbit" class="btn btn-success btn-block" name="buy" value="{{ number }}">Buy</button>
+
+                <button type = "sumbit" class="btn btn-success btn-block" name="buy" value="{{ seat }}">Buy</button>
                 <a class="btn btn-danger " href="{% url 'select_tickets' %}">Atras</a>
             </form>
         </div>

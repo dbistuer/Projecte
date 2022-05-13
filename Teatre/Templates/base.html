@@ -47,8 +47,6 @@
           </ul>
         </li>
       <a class="nav-link active" aria-current="page" href="{% url 'select_tickets' %}">Buy Ticket</a>
-      </ul>
-      <ul class="navbar-nav ml-auto">
       {% if user.is_authenticated %}
           {%  if user.is_staff or user.is_superuser %}
             <li class="nav-item">
@@ -94,10 +92,7 @@
                 <li><a class="dropdown-item list-group-item-danger" href="{%url 'delete_user' %}">Delete account</a></li>
                 <li><a class="dropdown-item list-group-item-danger" href="{%url 'logout' %}">Logout</a></li>
               {% endif %}
-
->>>>>>>>> Temporary merge branch 2
-              {% endif %}
-              href="#" id="DropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
+              <a href="#" id="DropdownUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if not user.is_authenticated %}
                     <li><a class="dropdown-item" href="{{login_url}}">Login</a></li>
@@ -120,8 +115,7 @@
     {% endblock %}
 </div>
 <script src="js/bootstrap.min.js"></script>
-<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-<script src="{% static 'js/scripts.js' %}"></script>
+
 
 </body>
 </html>

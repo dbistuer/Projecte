@@ -25,12 +25,17 @@ def ticket_buy(request,id_assignation):
     for tickets in Ticket.objects.all():
         if tickets.Room == room:
             for room_seat in tickets.Seats:
-                seats_busy.append(room_seat)
+                if room_seat != '[' and room_seat != ']' and room_seat != ' ':
+                    seats_busy.append(room_seat)
     seat = random.randint(0, room.capacity)
+    seat = search_seats(seat,seats_busy,room.capacity)
     seats.append(seat)
     if request.method == 'POST':
         try:
             request.POST['save']
+            number = int(request.POST['num'])
+            if seat+number != search_seats(seat+number,seats_busy,room.capacity):
+                seat = seat - request.POST['num']
             for num_ticket in range(int(request.POST['num'])-1):
                 seat = seat+1
                 seats.append(seat)
@@ -39,8 +44,9 @@ def ticket_buy(request,id_assignation):
                           {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
 
         except:
-            for num_ticket in range(int(request.POST['buy'])-1):
-                seat = seat+1
+            string_seat = request.POST['buy'].strip('[]')
+            int_list = list(map(int,string_seat.split(',')))
+            for seat in int_list:
                 seats.append(seat)
             total = 8.5 * len(seats)
             Ticket.objects.create(price=total,Movie=movie,Cinema=cinema,Room=room,date=movie_cinema_room.date_movie, Client=client,Seats=seats)
@@ -49,6 +55,20 @@ def ticket_buy(request,id_assignation):
     else:
         total = 8.50 * len(seats)
         return render(request, 'Ticket/Buy.html', {'movie_cinema_room': movie_cinema_room, 'seat': seats,'total':total,'number':len(seats)})
+
+def search_seats(seat,seats_busy,capacity):
+    number = []
+    for sit in seats_busy:
+        if sit == ',':
+            a_string = "".join(number)
+            an_integer = int(a_string)
+            if seat == an_integer:
+                seat = random.randint(0,capacity)
+            else:
+                break
+        else:
+            number.append(sit)
+    return seat
 
 @login_required
 def ticket_list(request):
