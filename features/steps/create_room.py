@@ -1,5 +1,6 @@
 from behave import *
-@Given(u'The staff has logged in')
+
+@Given(u'The user has logged in')
 def step_impl(context):
     from django.contrib.auth.models import User
     from Teatre.models.account import Client
@@ -24,7 +25,7 @@ def step_impl(context):
         client.telephone = row['phoneNumber']
         client.save()
 
-@Then (u'The staff logs in the account')
+@Then (u'The staff logs in')
 def step_impl(context):
     for row in context.table:
         context.browser.visit(context.get_url('login'))
@@ -34,29 +35,34 @@ def step_impl(context):
         form.find_by_value('Login').first.click()
 
 
-
-@given(u'Exists the following room in a cinema')
+@Given(u'A cinema exists')
 def step_impl(context):
-    from Teatre.models.cinema_ import Cinema, Room
+    from Teatre.models.cinema_ import Cinema
 
     for row in context.table:
 
         cinema = Cinema(adress=row['adress'],name=row['name'])
         cinema.save()
-        room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=cinema.id)
-        room.save()
-
-@when(u'I visit the cinema list')
-def step_impl(context):
     context.browser.visit(context.get_url('list_cinemas'))
-    context.browser.find_by_value('Room list').first.click()
 
-@then(u'I look up the rooms in the cinema')
+@When(u'We look into the cinema details and press try to create a button')
 def step_impl(context):
-    from Teatre.models.cinema_ import Cinema
-    cinema = Cinema.objects.get(name='Llauren')
-    assert context.browser.url == context.get_url('room_list',cinema.id)
+    context.browser.find_by_value('Room list').first.click()
+    context.browser.find_by_value('Nueva sala').first.click()
 
+
+@Then(u'We fulfill the form and create the room')
+def step_impl(context):
+    from Teatre.models.cinema_ import Room
     for row in context.table:
         for heading in row.headings:
-            assert context.browser.is_text_present(row[heading])
+            context.browser.fill(heading, row[heading])
+
+    context.browser.find_by_xpath('//select[@id="cinema"]//option["Lauren"]').last.click()
+    context.browser.find_by_value('save').first.click()
+    room = Room.objects.get(number='1')
+
+
+    assert Room.objects.filter(capacity=room.capacity).exists()
+    assert Room.objects.filter(id=room.id).exists()
+    assert not Room.objects.filter(number=500).exists()

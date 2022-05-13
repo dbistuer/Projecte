@@ -1,5 +1,5 @@
 from behave import *
-@Given(u'The staff has logged in')
+@Given(u'The staff has registered')
 def step_impl(context):
     from django.contrib.auth.models import User
     from Teatre.models.account import Client
@@ -24,7 +24,7 @@ def step_impl(context):
         client.telephone = row['phoneNumber']
         client.save()
 
-@Then (u'The staff logs in the account')
+@Then (u'The staff logs into the account')
 def step_impl(context):
     for row in context.table:
         context.browser.visit(context.get_url('login'))
@@ -34,8 +34,7 @@ def step_impl(context):
         form.find_by_value('Login').first.click()
 
 
-
-@given(u'Exists the following room in a cinema')
+@given(u'Given the following room in a cinema')
 def step_impl(context):
     from Teatre.models.cinema_ import Cinema, Room
 
@@ -46,17 +45,20 @@ def step_impl(context):
         room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=cinema.id)
         room.save()
 
-@when(u'I visit the cinema list')
+@when(u'We enter the cinema list')
 def step_impl(context):
     context.browser.visit(context.get_url('list_cinemas'))
-    context.browser.find_by_value('Room list').first.click()
+    context.browser.find_by_value('Room list').last.click()
 
-@then(u'I look up the rooms in the cinema')
+@then(u'I look up the details of a room of a cinema')
 def step_impl(context):
-    from Teatre.models.cinema_ import Cinema
-    cinema = Cinema.objects.get(name='Llauren')
-    assert context.browser.url == context.get_url('room_list',cinema.id)
+    from Teatre.models.cinema_ import Cinema, Room
 
-    for row in context.table:
-        for heading in row.headings:
-            assert context.browser.is_text_present(row[heading])
+    context.browser.find_by_value('detalles').last.click()
+    cinema = Cinema.objects.get(name='Cinemax')
+    room = Room.objects.get(number='3')
+    assert context.browser.url == context.get_url('modify_room',cinema.id,room.id)
+    assert Room.objects.filter(id=room.id).exists()
+    context.browser.find_by_value('eliminar').last.click()
+
+    assert not Room.objects.filter(id=room.id).exists()
