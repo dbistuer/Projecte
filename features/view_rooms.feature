@@ -4,6 +4,12 @@ Feature: View rooms
   I want to view a list of rooms
 
   Background: There's at least room in a cinema
+    Given The staff has logged in
+      | name        |   DNI         |   address     |   phoneNumber     |   email           |   alias       |   password        |   cardNumber                  |
+      | Adri        |   22450225V   |   Carrer      |   642897512       |   ma@hotmail.com   |   employee        |   1234            |   ES9121000418450200051332    |
+    Then The staff logs in the account
+      |   username       |   password        |
+      |   employee        |   1234            |
     Given Exists the following room in a cinema
       | adress                |   name          |   number      |   capacity     |
       | Roca llaurador        |   Llauren       |   10          |   230          |

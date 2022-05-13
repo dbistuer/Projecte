@@ -4,6 +4,12 @@ Feature: Create room
   I want to be able to fulfill a form
 
   Background: There's at least a cinema
+    Given The user has logged in
+      | name        |   DNI         |   address     |   phoneNumber     |   email           |   alias       |   password        |   cardNumber                  |
+      | Adri        |   22450225V   |   Carrer      |   642897512       |   ma@hotmail.com   |   employee        |   1234            |   ES9121000418450200051332    |
+    Then The staff logs in
+      |   username       |   password        |
+      |   employee        |   1234            |
     Given A cinema exists
       | adress               |   name         |
       | Roca labrador        |   Lauren       |
