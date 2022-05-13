@@ -30,7 +30,7 @@
             </div>
 
             <label for="cinema" class="form-label select-label">Elegir un cinema</label>
-            <select id="cinema" name="cinema" required class="select form-control-sm">
+            <select id="cinema" name="cinema" value="cinema" required class="select form-control-sm">
                 <option>Elegir un cinema</option>
                 {% for cin in cines %}
                     <option value="{{ cin.id }}" {% if cin.id == form.data.cin %}
@@ -39,7 +39,7 @@
             </select>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-success btn-block">Save</button>
+            <button type="submit" value="save" class="btn btn-success btn-block">Save</button>
         </div>
         </table>
     </form>

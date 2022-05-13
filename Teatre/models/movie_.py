@@ -1,11 +1,12 @@
 from django.db import models
 from django.db.models import Model
 from .account import Client
-from .cinema_ import Room
+from .cinema_ import Room, Cinema
+from django.core.validators import int_list_validator
+from Projecte.settings.base import MEDIA_ROOT as media
 
 
 class Movie(Model):
-    image = models.ImageField(upload_to='', null=True)
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=50)
     duration = models.IntegerField()
@@ -18,10 +19,13 @@ class Movie(Model):
 
 class Ticket(Model):
     date = models.DateTimeField(auto_now=True)
-    price = models.FloatField(max_length=4)
+    price = models.FloatField(max_length=4,default=8.5)
     Client = models.ForeignKey(Client, on_delete=models.CASCADE)
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    Cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
+    Seats = models.CharField(validators=[int_list_validator],max_length=100)
+
 
     class Meta:
         unique_together = (("date", "Client", "Movie", "Room"),)

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Tickets Buy {% endblock %}
+
+{% block body %}
+<div class = row>
+<h3>Ticket Information</h3>
+    <div class="row">
+        <div class="form-group">
+            <form action="{% url 'buy_ticket' movie_cinema_room.id %}" method="POST">
+                <input type="number" class="form-control" id="numb" name="num" value=1 required="">
+                {% csrf_token %}
+                <button type="sumbit" class="btn btn-success btn-block" id="saved" name="save" value="true">Save</button>
+            </form>
+        </div>
+        {% for sit in seat %}
+        <div class="col col-lg-4 mb-4">
+            <div class="card">
+                <h4 class ="text-black-50">Movie:
+                {{ movie_cinema_room.Movie.name }}</h4>
+                <a class ="text-black">Synopsis:
+                {{ movie_cinema_room.Movie.synopsis }}</a>
+                <a class ="text-black">Cinema:
+                {{ movie_cinema_room.Cinema.name }}</a>
+                <a class ="text-black">Room:
+                {{ movie_cinema_room.Room.number }}</a>
+                <a class ="text-black">Seat:
+                {{ sit }}</a>
+                <a class ="card-text text-success">Price:
+                8.5 €</a>
+            </div>
+        </div>
+        {% endfor %}
+        <h2>Total: {{ total }} €</h2>
+        <div class="form-group">
+            <form action="{% url 'buy_ticket' movie_cinema_room.id %}" method="POST">
+                {% csrf_token %}
+
+                <button type = "sumbit" class="btn btn-success btn-block" name="buy" value="{{ seat }}">Buy</button>
+                <a class="btn btn-danger " href="{% url 'select_tickets' %}">Atras</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
