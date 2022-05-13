@@ -2,10 +2,10 @@ from behave import *
 
 @given(u'Exists the following room_cinema_movie')
 def step_impl(context):
-    from Teatre.models.movie_cinema_room import MovieCinemaRoom
+    from Teatre.models.movie_cinema_room_ import MovieCinemaRoom
 
     for row in context.table:
-        movieCinemaRoom = MovieCinemaRoom(cinema=row['Cinema'],movie=row['Movie'],room=row['Room'],date_movie=row['date_movie'])
+        movieCinemaRoom = MovieCinemaRoom(Cinema_id=row['Cinema'],Movie_id=row['Movie'],Room_id=row['Room'],date_movie=row['date_movie'])
         movieCinemaRoom.save()
 
 @when(u'I visit the movie list')

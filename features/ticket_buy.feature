@@ -5,7 +5,7 @@ Feature: Ticket buys
   I want to view a list of films
 
   Background: There's at least moive_cinema_room in a database
-    Given Exists the following room in a cinema
+    Given Exists the following room_cinema_movie
       | Cinema               |   Movie         |   Room     |   date_movie     |
       | 1                    |   1             |   1        |   2022-05-10     |
 
