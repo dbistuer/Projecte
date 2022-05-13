@@ -24,10 +24,12 @@
                 </div>
             <hr/>
             <p class="card-text">{{ movie.synopsis}}</p>
+            {%  if user.is_staff or user.is_superuser %}
             <div class="card-footer text-muted d-flex">
                 <a href="{% url 'movie_delete' movie.id %}" class="btn btn-danger">Delete</a>
                 <a href="{% url 'movie_edit' movie.id %}" class="ms-auto btn btn-warning">Edit</a>
             </div>
+            {%  endif %}
         </div>
     </div>
 </div>
