@@ -46,6 +46,7 @@
             <li><a class="dropdown-item" href="/SignIn">Register</a></li>
           </ul>
         </li>
+      <a class="nav-link active" aria-current="page" href="{% url 'select_tickets' %}">Buy Ticket</a>
       {% if user.is_authenticated %}
           {%  if user.is_staff or user.is_superuser %}
             <li class="nav-item">
@@ -114,7 +115,22 @@
     {% endblock %}
 </div>
 <script src="js/bootstrap.min.js"></script>
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+=======
+
+
+{% if 'MovieCinemaRoom/Add' in request.path or request.path == '/' %}
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+{% endif %}
+
+>>>>>>> Develop
+>>>>>>> 38ae6a1211618c015de5dc06cd33b38a12b3747d
 
 </body>
 </html>

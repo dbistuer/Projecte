@@ -99,3 +99,4 @@ def update_movie_by_another(to,from_):
         to.image = from_.image
     to.save()
     return to
+

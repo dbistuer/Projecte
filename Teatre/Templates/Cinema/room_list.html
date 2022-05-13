@@ -44,7 +44,7 @@
                     <td>{{room.capacity}}</td>
                     <td>
 
-                                <a class="btn table-hover btn-info" href="{% url 'modify_room' cinema_id room.id %}">Detalles</a>
+                                <a class="btn table-hover btn-info" value="detalles" href="{% url 'modify_room' cinema_id room.id %}">Detalles</a>
 
                     </td>
                 </tr>
@@ -59,7 +59,7 @@
     </div>
     <div>
             <a class="btn btn-danger " href="{% url 'list_cinemas' %}">Atras</a>
-            <a class="btn btn-info " href="{% url 'create_room' %}">Nueva sala</a>
+            <a class="btn btn-info " value="Nueva sala" href="{% url 'create_room' %}">Nueva sala</a>
 
         </div>
 </div>
