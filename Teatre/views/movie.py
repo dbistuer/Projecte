@@ -27,7 +27,7 @@ def Detail_Movie(request, **kwargs):
 
 @login_required
 def New_Movie(request):
-    if not request.user.is_staff:
+    if user.is_active:
         return render(request, 'errorPage.html')
     json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, }
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def New_Movie(request):
 
 @login_required
 def Movie_Edit(request, id):
-    if not request.user.is_staff:
+    if user.is_active:
         return render(request, 'errorPage.html')
     movie = 0
     json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie}
@@ -61,7 +61,7 @@ def Movie_Edit(request, id):
 
 @login_required
 def Movie_Delete(request,id):
-    if not request.user.is_staff:
+    if user.is_active:
         return render(request, 'errorPage.html')
     movie = Movie.objects.get(pk=id)
     if movie:
