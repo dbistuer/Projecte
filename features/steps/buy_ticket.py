@@ -1,11 +1,53 @@
 from behave import *
+@Given(u'The staff has an account')
+def step_impl(context):
+    from django.contrib.auth.models import User
+    from Teatre.models.account import Client
+
+    for row in context.table:
+
+        # Register user
+        user = User(username=row['alias'], email=row['email'], first_name=row['name'])
+        user.set_password(row['password'])
+
+        if row['alias'] == 'employee':
+            user.is_active = True
+            user.is_staff = True
+            user.is_superuser = False
+
+        user.save()
+
+        client = Client.objects.get(user=user)
+        client.address = row['address']
+        client.DNI = row['DNI']
+        client.cardNumber = row['cardNumber']
+        client.telephone = row['phoneNumber']
+        client.save()
+
+@Then (u'The staff is logged in the account')
+def step_impl(context):
+    for row in context.table:
+        context.browser.visit(context.get_url('login'))
+        form = context.browser.find_by_tag('form').first
+        for heading in row.headings:
+            context.browser.fill(heading, row[heading])
+        form.find_by_value('Login').first.click()
+
 
 @given(u'Exists the following room_cinema_movie')
 def step_impl(context):
     from Teatre.models.movie_cinema_room_ import MovieCinemaRoom
-
+    from Teatre.models.cinema_ import Cinema, Room
+    from Teatre.models.movie_ import Movie
     for row in context.table:
-        movieCinemaRoom = MovieCinemaRoom(Cinema_id=row['Cinema'],Movie_id=row['Movie'],Room_id=row['Room'],date_movie=row['date_movie'])
+
+        cinema = Cinema(adress=row['adress'],name=row['name'])
+        cinema.save()
+        room = Room(number=row['number'],capacity=row['capacity'],Cinema_id=cinema.id)
+        room.save()
+        movie = Movie(name=row['mov_name'],gender=row['gender'],duration=row['duration'],synopsis=row['synopsis'],classification=row['classification'])
+
+        movieCinemaRoom = MovieCinemaRoom(Cinema_id=cinema.id,Movie_id=movie.id,Room_id=room.id,date_movie=row['date_movie'])
         movieCinemaRoom.save()
 
 @when(u'I visit the movie list')
