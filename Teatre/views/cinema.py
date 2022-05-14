@@ -27,7 +27,7 @@ def New_Cinema(request):
         except Exception as e:
             return render(request, 'errorPage.html')
         cinema.save()
-        return Cinema_List(request)
+        return CinemaList(request)
     return render(request, 'Cinema/new_cinema.html')
 
 
