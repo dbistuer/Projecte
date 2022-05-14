@@ -15,7 +15,7 @@
             {{ mssg }}
         </div>
     {% endif %}
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <div class="form-group">
         <label for="frmName">Name</label>
@@ -52,7 +52,7 @@
                 {% endif %}
                >
             {% if request.path != new_movie %}
-                     <img {% if movie.image %} src="{{ movie.image.url }}" {% else %} alt="You have no image." {% endif %}>
+                     <img {% if movie.image %} src={{ movie.image.url }} {% else %} alt="You have no image." {% endif %}>
             {% endif %}
         <!--Load image and not required for edit-->
         </div>

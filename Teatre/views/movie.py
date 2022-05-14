@@ -78,7 +78,7 @@ def get_Movie_from_attr(request):
         classification = request.POST['classification']
         duration = int(request.POST['duration'])
         synopsis = request.POST['synopsis']
-        image = request.POST['image']
+        image = request.FILES['image']
     except Exception as e:
         return e
     return Movie(name=name, gender=gender, classification=classification, duration=duration, image=image,
