@@ -2,11 +2,14 @@
 
 {% block title %} Compra de ticket {% endblock %}
 
-{% block body %}
+{% block body %} 
 <div class="container">
     <div class="row">
         <div class="col-12">
             <h2 class="mt-4 mb-5"><strong>Select Movie</strong></h2>
+            {% if not movie_cinema_room %}
+            <p> Tickets not available. </p> 
+            {% endif %}
             <div class="row">
             {% for movie_cinema_room in datos %}
                 <div class="col col-lg-4 mb-4">
