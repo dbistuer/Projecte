@@ -34,10 +34,11 @@
             </table>
         </div>
         {% if request.user.is_staff %}
+        
         <div class="card-footer text-muted d-flex">
-                <a href="New_Cinema" class="btn btn-green">+New</a>
+                <a href="New_Cinema" value="+New" class="btn btn-green">+New</a>
         </div>
-		{% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
