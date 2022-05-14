@@ -49,20 +49,27 @@
       <a class="nav-link active" aria-current="page" href="{% url 'select_tickets' %}">Buy Ticket</a>
       {% if user.is_authenticated %}
           {%  if user.is_staff or user.is_superuser %}
-            <li class="nav-item">
-              {% if request.path == new_movie %}
-                  <p class="nav-link active" style="margin-bottom: 0px">Add movie</p>
-              {% else %}
-                  <a class="nav-link" aria-current="page" href="{% url 'new_movie' %}">Add movie</a>
-              {% endif %}
-            </li>
-            <li class="nav-item">
-              {% if request.path == add_movie_cinema_room %}
-                  <p class="nav-link active" style="margin-bottom: 0px">Add movie to cinema</p>
-              {% else %}
-                  <a class="nav-link" aria-current="page" href="{% url 'add_movie_cinema_room' %}">Add movie to cinema</a>
-              {% endif %}
-            </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Create/Add
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li class="nav-item">
+                <a class="dropdown-item" aria-current="page" href="{% url 'new_movie' %}">Add movie</a>
+              </li>             
+              <li class="nav-item">
+                    <a class="dropdown-item" aria-current="page" href="{% url 'add_movie_cinema_room' %}">Create tickets</a>
+              </li>  
+              <li class="nav-item"> <a class="dropdown-item" aria-current="page" href="">Add cinemas</a>
+              </li>   
+              <li class="nav-item"> <a class="dropdown-item" aria-current="page" href="{% url 'create_room' %}">Add rooms</a>
+              </li>   
+            </ul>
+          </li> 
+          
+            
+            
+
       {% endif %}
 
       {% endif %}
