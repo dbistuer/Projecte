@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% url 'cinema_detail' as cinema_detail %}
+{% url 'cinema_edit_delete' as cinema_edit_delete %}
+{% block title %} Cinema Detail {% endblock %}
+{% block body %}
+<div class="container">
+    <h1>Cinema Detail</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ cinema.name}}</h5>
+            <hr/>
+                <div class="d-flex">
+                    <p><b>Address:</b> {{cinema.adress}}</p>
+                </div>
+            <hr/>
+            <p class="card-text">{{ cinema.description}}</p>
+            {% if request.user.is_staff %}
+            <div class="card-footer text-muted d-flex">
+                <a href="{% url 'cinema_delete' cinema.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'cinema_edit' cinema.id %}" class="ms-auto btn btn-warning">Edit</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

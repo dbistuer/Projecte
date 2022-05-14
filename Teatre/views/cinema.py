@@ -1,12 +1,80 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Teatre.models import *
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 
 def CinemaList(request):
     cinemas = Cinema.objects.all()
-    json = {'cinemas': cinemas}
+    json = {'cinemas': cinemas, 'request': request}
     return render(request, 'Cinema/List.html', json)
+
+def Cinema_(request, **kwargs):
+    id = int(kwargs.get('id'))
+    cinema = Cinema.objects.get(id=id)
+    json = {'cinema': cinema, 'request': request}
+    if request.method == 'POST':
+        type = kwargs.get('type')
+    return render(request, 'Cinema/cinema.html', json)
+
+
+def New_Cinema(request):
+    if not request.user.is_staff:
+        return redirect('/Teatre/Cinema/List')
+    
+    if request.method == 'POST':
+        try:
+            cinema = get_Cinema_from_attr(request)
+        except Exception as e:
+            return render(request, 'errorPage.html')
+        cinema.save()
+        return CinemaList(request)
+    return render(request, 'Cinema/new_cinema.html')
+
+
+def Cinema_Edit(request, id):    
+    if not request.user.is_staff:
+        return redirect('/Teatre/Cinema/List')
+    
+    cinema = 0
+    try:
+        cinema = Cinema.objects.get(pk=id)
+    except Exception as e:
+        return render(request, 'errorPage.html')
+    if request.method == 'POST':
+        try:
+            cinema_edit = get_Cinema_from_attr(request)
+        except Exception as e:
+            return render(request, 'errorPage.html')
+        Cinema.objects.filter(id__exact=id).update(name=request.POST.get('name', False))
+        Cinema.objects.filter(id__exact=id).update(adress=request.POST.get('adress', False))
+        Cinema.objects.filter(id__exact=id).update(description=request.POST.get('description', False))
+        return redirect('/Teatre/Cinema/List')
+    json = {'cinema': cinema}
+    return render(request, 'Cinema/new_cinema.html', json)
+    
+def Cinema_Delete(request, id):
+    if request.user.is_staff:
+        cinema = 0
+        try:
+            cinema = Cinema.objects.get(pk=id)
+        except Exception as e:
+            return render(request, 'errorPage.html')
+            Cinema.objects.update(cinema_edit)
+            cinema = cinema_edit
+        cinema.delete()
+     
+    return redirect('/Teatre/Cinema/List')
+
+
+def get_Cinema_from_attr(request):
+    try:
+        name = request.POST['name']
+        adress = request.POST['adress']
+        description = request.POST['description']
+    except Exception as e:
+        return e
+    return Cinema(name=name, adress=adress, description=description)
+
 
 @login_required
 @user_passes_test(lambda user: user.is_staff)
