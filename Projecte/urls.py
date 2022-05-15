@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from Teatre.views import *
+
+
 urlpatterns = [
     path('', home, name='home'),
     path('Teatre/', include('Teatre.urls')),
@@ -24,4 +26,10 @@ urlpatterns = [
     path('SignIn/', SignIn, name='register'),
     path('profile/', profile, name='profile'),
     path('profile/edit/', edit_profile, name='edit_profile'),
+
+    path('accounts/delete/', delete_user, name='delete_user'),
+    path('usermanage/', user_management, name='user_management'),
 ]
+from django.conf.urls.static import static
+from django.conf import settings
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

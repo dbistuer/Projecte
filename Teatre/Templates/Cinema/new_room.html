@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %} Creación de sala {% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Creacion de una sala</h1>
+            <div class="card">
+  <div class="card-body">
+    <form action="{% url 'create_room' %}" method="POST">
+        {% csrf_token%}
+        <table class="table table-striped table-hover col-2">
+            {% if success == True %}
+            <div class="alert alert-success" role="alert">
+                La sala se ha creado correctamente.
+            </div>
+            {% elif success == False %}
+                <div class="alert alert-danger" role="alert">
+                    Porfavor seleccione una cine.
+                </div>
+            {% endif %}
+            <div class="form-group">
+            <input type="text" id="number" name="number" class="form-control" placeholder="Introduzca el numero de la sala" minlength="1" maxlength="500" required/>
+            </div>
+
+            <div class="form-group">
+            <input type="text" id="capacity" name="capacity" class="form-control" placeholder="Introduzca la capacidad de la sala" minlength="2" maxlength="50" required/>
+            </div>
+
+            <label for="cinema" class="form-label select-label">Elegir un cinema</label>
+            <select id="cinema" name="cinema" value="cinema" required class="select form-control-sm">
+                <option>Elegir un cinema</option>
+                {% for cin in cines %}
+                    <option value="{{ cin.id }}" {% if cin.id == form.data.cin %}
+                            selected {% endif %}>{{ cin.name }}</option>
+                {% endfor %}
+            </select>
+
+        <div class="form-group">
+            <button type="submit" value="save" class="btn btn-success btn-block">Save</button>
+        </div>
+        </table>
+    </form>
+  </div>
+</div>
+</div>
+    </div>
+    <div>
+            <a class="btn btn-danger" href="{% url 'list_cinemas' %}">Volver a la lista de cines</a>
+        </div>
+
+</div>
+
+
+
+
+{% endblock %}

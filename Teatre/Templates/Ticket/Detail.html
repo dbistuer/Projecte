@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Ticket Detail {% endblock %}
+{% block css %}
+    .notify-badge{
+        position: absolute;
+        right: 0px;
+        bottom:(screen.widht/2);
+    }
+{%endblock%}
+{% block body %}
+<div class="container">
+    <h1>Ticket Detail</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-center">{{ ticket.Movie.name}}</h5>
+            <hr/>
+                <div class="d-flex">
+                    <p><b>Price:</b> {{ ticket.price }}</p>
+                    <p class="ms-5"><b>Customer:</b> {{ticket.Client.DNI}}</p>
+                    <p class="ms-5"><b>Date of film:</b> {{ticket.date}}</p>
+                </div>
+            <hr/>
+            <p class="card-text"><b>Synopsis: </b>{{ ticket.Movie.synopsis}}</p>
+            <p><b>Seats: </b>{{ ticket.Seats }}</p>
+            <div class="card-footer text-muted d-flex">
+                <a href="#" class="btn btn-danger">Ask for refund</a>
+                <a href="{% url 'list_tickets' %}" class="ms-auto btn btn-warning">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

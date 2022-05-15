@@ -13,6 +13,8 @@
                     <th>Name</th>
                     <th>Adress</th>
                     <th>Rooms</th>
+                    <th>Description</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -21,11 +23,22 @@
                         <td>{{ cinema.name }}</td>
                         <td>{{ cinema.adress }}</td>
                         <td>{{ cinema.room_set.values.count }}</td>
+                        <td>{{ cinema.description }}</td>
+                        <td><a class="btn btn-primary" value="Details" href="{% url 'cinema_detail' cinema.id %}">Details</a> </td>
+                    <td>
+            <a class=" btn btn-success " value="Room list"  href="{% url 'room_list' cinema.id %}"> Room list</a>
+        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
+        {% if request.user.is_staff %}
+        
+        <div class="card-footer text-muted d-flex">
+                <a href="New_Cinema" value="+New" class="btn btn-green">+New</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
