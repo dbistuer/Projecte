@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import Model
 from .account import Client
-from .cinema_ import Room
+from .cinema_ import Room, Cinema
+from django.core.validators import int_list_validator
 
 
 class Movie(Model):
@@ -22,6 +23,8 @@ class Ticket(Model):
     Client = models.ForeignKey(Client, on_delete=models.CASCADE)
     Movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     Room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    Cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
+    Seats = models.CharField(validators=[int_list_validator], max_length=100)
 
     class Meta:
         unique_together = (("date", "Client", "Movie", "Room"),)
