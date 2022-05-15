@@ -15,5 +15,5 @@ DATABASES = {
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+STATIC_ROOT = BASE_DIR
 INSTALLED_APPS += 'behave_django'

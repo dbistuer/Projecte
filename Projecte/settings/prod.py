@@ -23,4 +23,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['https://cinema-web-project.herokuapp.com/',
                  'https://cinema-web-project.herokuapp.com/']
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
 django_heroku.settings(locals())
