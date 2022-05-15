@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Teatre.apps.TeatreConfig',
-    'behave_django'
 ]
 
 MIDDLEWARE = [
