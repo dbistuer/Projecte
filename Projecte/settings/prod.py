@@ -18,7 +18,7 @@ DATABASES = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['https://cinema-web-project.herokuapp.com/',
                  'https://cinema-web-project.herokuapp.com/']
