@@ -34,7 +34,8 @@ def New_Movie(request):
         try:
             movie = get_Movie_from_attr(request)
         except Exception as e:
-            return render(request, 'errorPage.html')
+            return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                           'message': 'Page not exist or permission dennied'}})
         movie.save()
         json['mssg'] = 'Your movie has been added succesfuly.'
     return render(request, 'Movie/new_movie.html', json)
@@ -42,19 +43,22 @@ def New_Movie(request):
 @login_required
 def Movie_Edit(request, id):
     if not request.user.is_staff:
-        return render(request, 'errorPage.html')
+        return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                       'message': 'Page not exist or permission dennied'}})
     movie = 0
     json = {'api_url': API_MOVIEDB_URL, 'api_key': API_MOVIEDB_KEY, 'movie': movie}
     try:
         movie = Movie.objects.get(pk=id)
         json['movie'] = movie
     except Exception as e:
-        return render(request, 'errorPage.html')
+        return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                       'message': 'This movie does not exist'}})
     if request.method == 'POST':
         try:
             movie_edit = get_Movie_from_attr(request)
         except Exception as e:
-            return render(request, 'errorPage.html')
+            return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                           'message': 'Error with page retry later'}})
         json['movie'] = update_movie_by_another(movie,movie_edit)
         json['mssg'] = 'Your changes have been saved succesfuly.'
     return render(request, 'Movie/new_movie.html',json)
@@ -62,13 +66,15 @@ def Movie_Edit(request, id):
 @login_required
 def Movie_Delete(request,id):
     if not request.user.is_staff:
-        return render(request, 'errorPage.html')
+        return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                       'message': 'Page not exist or permission dennied'}})
     movie = Movie.objects.get(pk=id)
     if movie:
         movie.delete()
         return Movie_List(request)
     else:
-        return render(request, 'errorPage.html')
+        return render(request, 'Error/error_generico.html', {'error': {'title': '404 error',
+                                                                       'message': 'This movie does not exist'}})
 
 
 def get_Movie_from_attr(request):
