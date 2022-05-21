@@ -5,15 +5,15 @@
 {% block body %}
 <div class="container">
     <h1>Cinema Detail</h1>
-    <div class="card">
+    <div class="card" vocab="https://schema.org/" typeof="https://schema.org/MovieTheater">
         <div class="card-body">
-            <h5 class="card-title text-center">{{ cinema.name}}</h5>
+            <h5 class="card-title text-center" property="name">{{ cinema.name}}</h5>
             <hr/>
-                <div class="d-flex">
-                    <p><b>Address:</b> {{cinema.adress}}</p>
+                <div class="d-flex" property="address" typeof="https://schema.org/PostalAddress">
+                    <p property="streetAddress"><b>Address:</b> {{cinema.adress}}</p>
                 </div>
             <hr/>
-            <p class="card-text">{{ cinema.description}}</p>
+            <p class="card-text" property="description">{{ cinema.description}}</p>
             {% if request.user.is_staff %}
             <div class="card-footer text-muted d-flex">
                 <a href="{% url 'cinema_delete' cinema.id %}" value="Delete" class="btn btn-danger">Delete</a>
